@@ -7,6 +7,7 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    image_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -15,6 +16,14 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        if self.image_url:
+            return self.image_url
+        return 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&q=80'
 
 
 class Product(models.Model):
@@ -38,6 +47,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+        if self.image_url:
+            return self.image_url
+        return 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80'
 
     @property
     def discount_percent(self):

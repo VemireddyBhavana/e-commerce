@@ -67,7 +67,7 @@ async function loadCartPage() {
     html += `
     <div class="cart-item" id="cartItem-${item.id}">
       <div class="cart-item-img">
-        ${item.product_image ? `<img src="${item.product_image}" alt="${item.product_name}"/>` : '<div class="product-img-placeholder small">🛍️</div>'}
+        <img src="${item.product_image || 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80'}" alt="${item.product_name}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
       </div>
       <div class="cart-item-info">
         <h3>${item.product_name}</h3>

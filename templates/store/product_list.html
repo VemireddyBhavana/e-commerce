@@ -75,11 +75,7 @@
             {% endif %}
             <button class="product-wishlist-btn" onclick="event.stopPropagation();toggleWishlist({{ product.id }})" id="wBtn-{{ product.id }}" aria-label="Wishlist"><i class="far fa-heart"></i></button>
             <div class="product-card-img">
-              {% if product.image_url %}
-              <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
-              {% else %}
-              <span class="product-img-placeholder">🛍️</span>
-              {% endif %}
+              <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
             </div>
             <div class="product-card-body">
               <div class="product-category-lbl">{{ product.category.name }}</div>
@@ -89,8 +85,8 @@
                 <span>({{ product.review_count }})</span>
               </div>
               <div class="product-price-row">
-                <span class="price-now">?{{ product.price }}</span>
-                {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+                <span class="price-now">₹{{ product.price }}</span>
+                {% if product.original_price %}<span class="price-was">₹{{ product.original_price }}</span>{% endif %}
               </div>
               {% if product.in_stock %}
               <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtn-{{ product.id }}">

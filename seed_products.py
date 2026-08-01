@@ -1,6 +1,6 @@
 """
-Seed script — run with:  python manage.py shell < seed_products.py
-Adds 54 products across 6 categories with INR (₹) prices.
+Seed script — run with:  Get-Content seed_products.py | python manage.py shell
+Adds 54 products across 6 categories with INR (₹) prices and unique HD image URLs.
 """
 import os
 import django
@@ -14,23 +14,25 @@ Product.objects.all().delete()
 Category.objects.all().delete()
 print("🗑️  Cleared existing products & categories.\n")
 
-# Create categories
+# Create categories with unique high quality images
 categories = {}
-for name, slug in [
-    ('Electronics', 'electronics'),
-    ('Clothing', 'clothing'),
-    ('Books', 'books'),
-    ('Home & Garden', 'home'),
-    ('Sports', 'sports'),
-    ('Beauty', 'beauty'),
-]:
-    cat = Category.objects.create(name=name, slug=slug)
+category_data = [
+    ('Electronics', 'electronics', 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80'),
+    ('Clothing', 'clothing', 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80'),
+    ('Books', 'books', 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80'),
+    ('Home & Garden', 'home', 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80'),
+    ('Sports', 'sports', 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&q=80'),
+    ('Beauty', 'beauty', 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80'),
+]
+
+for name, slug, img in category_data:
+    cat = Category.objects.create(name=name, slug=slug, image_url=img)
     categories[slug] = cat
     print(f'  ✅ Category: {name}')
 
 print()
 
-# ─── Products Data — All prices in Indian Rupees (₹) ────────────────────────
+# ─── Products Data — 54 Unique Products with Unique Images ───────────────────
 products_data = [
 
     # ── Electronics (10 items) ──────────────────────────────────────────────
@@ -117,7 +119,7 @@ products_data = [
          category='clothing',
          description='Clean, minimalist leather sneakers with cushioned insole. The ultimate everyday essential that pairs with everything.',
          price='7499', original_price='10999', stock=95, is_featured=True, rating=4.6, review_count=1102,
-         image_url='https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80'),
+         image_url='https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80'),
 
     dict(name="Men's Graphic Tee Pack (3x)", slug='mens-graphic-tee-pack',
          category='clothing',
@@ -208,7 +210,7 @@ products_data = [
          category='books',
          description="Daniel Kahneman's landmark work on the two systems that drive the way we think — and how to make better decisions.",
          price='1749', original_price='2499', stock=140, is_featured=False, rating=4.7, review_count=3100,
-         image_url='https://images.unsplash.com/photo-1565375935553-b69fbe4e6d24?w=600&q=80'),
+         image_url='https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&q=80'),
 
     dict(name='Zero to One by Peter Thiel', slug='zero-to-one-book',
          category='books',
@@ -263,7 +265,7 @@ products_data = [
          category='home',
          description='Therapeutic 7kg weighted blanket filled with glass beads. Promotes deeper sleep and reduces anxiety. Machine washable.',
          price='6799', original_price='9999', stock=55, is_featured=True, rating=4.8, review_count=673,
-         image_url='https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=600&q=80'),
+         image_url='https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=600&q=80'),
 
     # ── Sports (8 items) ─────────────────────────────────────────────────────
     dict(name='Yoga Mat Premium', slug='yoga-mat-premium',
@@ -276,7 +278,7 @@ products_data = [
          category='sports',
          description='Dial-a-weight adjustable dumbbells replacing 15 sets of weights. Space-saving design for home gyms.',
          price='24999', original_price='37999', stock=22, is_featured=True, rating=4.9, review_count=1890,
-         image_url='https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80'),
+         image_url='https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&q=80'),
 
     dict(name='Resistance Bands Set (5 levels)', slug='resistance-bands-set',
          category='sports',
@@ -306,7 +308,7 @@ products_data = [
          category='sports',
          description='Lightweight running belt with adjustable strap and water-resistant pockets for phone, keys, and gels. Fits all phone sizes.',
          price='1899', original_price='2799', stock=110, is_featured=False, rating=4.5, review_count=654,
-         image_url='https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80'),
+         image_url='https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80'),
 
     dict(name='Boxing Gloves Training 10oz', slug='boxing-gloves-10oz',
          category='sports',

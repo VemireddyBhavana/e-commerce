@@ -12,6 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
     discount_percent = serializers.SerializerMethodField()
     in_stock = serializers.SerializerMethodField()
+    image_url = serializers.CharField(source='get_image_url', read_only=True)
 
     class Meta:
         model = Product
@@ -34,7 +35,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     product_price = serializers.DecimalField(
         source='product.price', max_digits=10, decimal_places=2, read_only=True
     )
-    product_image = serializers.CharField(source='product.image_url', read_only=True)
+    product_image = serializers.CharField(source='product.get_image_url', read_only=True)
     subtotal = serializers.SerializerMethodField()
 
     class Meta:

@@ -56,11 +56,7 @@
     <div class="categories-grid" id="categoriesGrid">
       {% for cat in all_categories %}
       <a href="/products/?category={{ cat.slug }}" class="category-card" id="cat-{{ cat.slug }}">
-        {% if cat.image %}
-        <img src="{{ cat.image.url }}" alt="{{ cat.name }}"/>
-        {% else %}
-        <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=500&q=80&auto=format&fit=crop" alt="{{ cat.name }}"/>
-        {% endif %}
+        <img src="{{ cat.get_image_url }}" alt="{{ cat.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&q=80';"/>
         <div class="category-card-overlay"></div>
         <div class="category-card-label">
           <h3>{{ cat.name }}</h3>
@@ -118,11 +114,7 @@
           <i class="far fa-heart"></i>
         </button>
         <div class="product-card-img">
-          {% if product.image_url %}
-          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
-          {% else %}
-          <span class="product-img-placeholder">🛍️</span>
-          {% endif %}
+          <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
         </div>
         <div class="product-card-body">
           <div class="product-category-lbl">{{ product.category.name }}</div>
@@ -134,8 +126,8 @@
             <span>({{ product.review_count }})</span>
           </div>
           <div class="product-price-row">
-            <span class="price-now">?{{ product.price }}</span>
-            {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+            <span class="price-now">₹{{ product.price }}</span>
+            {% if product.original_price %}<span class="price-was">₹{{ product.original_price }}</span>{% endif %}
           </div>
           <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtn-{{ product.id }}">
             <i class="fas fa-shopping-bag"></i> Add to Cart
@@ -170,11 +162,7 @@
           <i class="far fa-heart"></i>
         </button>
         <div class="product-card-img">
-          {% if product.image_url %}
-          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
-          {% else %}
-          <span class="product-img-placeholder">🛍️</span>
-          {% endif %}
+          <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
         </div>
         <div class="product-card-body">
           <div class="product-category-lbl">{{ product.category.name }}</div>
@@ -184,8 +172,8 @@
             <span>({{ product.review_count }})</span>
           </div>
           <div class="product-price-row">
-            <span class="price-now">?{{ product.price }}</span>
-            {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+            <span class="price-now">₹{{ product.price }}</span>
+            {% if product.original_price %}<span class="price-was">₹{{ product.original_price }}</span>{% endif %}
           </div>
           <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtnN-{{ product.id }}">
             <i class="fas fa-shopping-bag"></i> Add to Cart
@@ -219,11 +207,7 @@
           <i class="far fa-heart"></i>
         </button>
         <div class="product-card-img">
-          {% if product.image_url %}
-          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
-          {% else %}
-          <span class="product-img-placeholder">🛍️</span>
-          {% endif %}
+          <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
         </div>
         <div class="product-card-body">
           <div class="product-category-lbl">{{ product.category.name }}</div>
@@ -233,8 +217,8 @@
             <span>({{ product.review_count }})</span>
           </div>
           <div class="product-price-row">
-            <span class="price-now">?{{ product.price }}</span>
-            {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+            <span class="price-now">₹{{ product.price }}</span>
+            {% if product.original_price %}<span class="price-was">₹{{ product.original_price }}</span>{% endif %}
             {% if product.discount_percent > 0 %}<span style="font-size:.7rem;color:#10b981;font-weight:700;">{{ product.discount_percent }}% off</span>{% endif %}
           </div>
           <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtnD-{{ product.id }}">

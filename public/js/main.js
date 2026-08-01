@@ -100,13 +100,11 @@ function renderCartDrawer(cart) {
     html += `
     <div class="cart-item-row" id="citem-${item.id}">
       <div class="cart-item-img">
-        ${item.product_image
-          ? `<img src="${item.product_image}" alt="${item.product_name}"/>`
-          : `<span style="font-size:1.8rem;">🛍️</span>`}
+        <img src="${item.product_image || 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80'}" alt="${item.product_name}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
       </div>
       <div class="cart-item-details">
         <div class="cart-item-name">${item.product_name}</div>
-        <div class="cart-item-price">$${item.product_price}</div>
+        <div class="cart-item-price">₹${item.product_price}</div>
         <div class="cart-item-qty-row">
           <button class="qty-btn" onclick="updateCart(${item.id},${item.quantity-1})" id="qMinus-${item.id}">–</button>
           <span class="qty-num" id="qNum-${item.id}">${item.quantity}</span>

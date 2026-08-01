@@ -166,9 +166,7 @@ async function loadWishlist() {
     let html = '';
     items.forEach(item => {
       const p = item.product;
-      const img = p.image_url
-        ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy"/>`
-        : `<span class="product-img-placeholder">🛍️</span>`;
+      const img = `<img src="${p.image_url || 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80'}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>`;
       html += `
       <div class="product-card" id="wcard-${p.id}">
         <button class="product-wishlist-btn" onclick="removeFromWishlist(${p.id})" id="wBtn-${p.id}" aria-label="Remove from wishlist">
