@@ -341,6 +341,16 @@ function initScrollReveal() {
   });
 }
 
+// ── Click / Tap Animation Trigger ───────────────────────────
+function initCardClickAnimations() {
+  document.querySelectorAll('.service-item, .category-card, .badge-item, .product-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.add('active');
+      setTimeout(() => card.classList.remove('active'), 800);
+    });
+  });
+}
+
 // ── Navbar shadow on scroll ───────────────────────────────────
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('navbar');
@@ -354,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
   refreshCartCount();
   updateWishlistBtns();
   initScrollReveal();
+  initCardClickAnimations();
   // Hide global loader after 800ms
   setTimeout(hideLoader, 800);
 });

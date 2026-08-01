@@ -90,10 +90,15 @@ body.dark-mode {
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.3s ease;
     position: relative;
     overflow: hidden;
-    cursor: default;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.badge-item:hover {
+.badge-item:hover,
+.badge-item:active,
+.badge-item:focus-within,
+.badge-item.active {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 16px 36px rgba(244, 63, 94, 0.15), 0 4px 16px rgba(0, 0, 0, 0.08);
     border-color: rgba(244, 63, 94, 0.4);
@@ -115,7 +120,10 @@ body.dark-mode {
     animation: ripplePulse 2.5s infinite;
 }
 
-.badge-item:hover .badge-icon {
+.badge-item:hover .badge-icon,
+.badge-item:active .badge-icon,
+.badge-item:focus-within .badge-icon,
+.badge-item.active .badge-icon {
     background: linear-gradient(135deg, var(--accent), #e11d48);
     color: #ffffff !important;
     transform: scale(1.1);
@@ -131,7 +139,10 @@ body.dark-mode {
     transition: color 0.3s ease;
 }
 
-.badge-item:hover .badge-text h4 {
+.badge-item:hover .badge-text h4,
+.badge-item:active .badge-text h4,
+.badge-item:focus-within .badge-text h4,
+.badge-item.active .badge-text h4 {
     color: var(--accent);
 }
 
@@ -143,19 +154,31 @@ body.dark-mode {
 
 /* Micro-animations per icon */
 /* Truck drive */
-.badge-item:nth-child(1):hover .badge-icon i {
+.badge-item:nth-child(1):hover .badge-icon i,
+.badge-item:nth-child(1):active .badge-icon i,
+.badge-item:nth-child(1):focus-within .badge-icon i,
+.badge-item:nth-child(1).active .badge-icon i {
     animation: truckDrive 0.6s ease-in-out infinite;
 }
 /* Rotate Undo */
-.badge-item:nth-child(2):hover .badge-icon i {
+.badge-item:nth-child(2):hover .badge-icon i,
+.badge-item:nth-child(2):active .badge-icon i,
+.badge-item:nth-child(2):focus-within .badge-icon i,
+.badge-item:nth-child(2).active .badge-icon i {
     animation: spinUndo 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 /* Headset Wiggle */
-.badge-item:nth-child(3):hover .badge-icon i {
+.badge-item:nth-child(3):hover .badge-icon i,
+.badge-item:nth-child(3):active .badge-icon i,
+.badge-item:nth-child(3):focus-within .badge-icon i,
+.badge-item:nth-child(3).active .badge-icon i {
     animation: headsetWiggle 0.6s ease-in-out;
 }
 /* Shield Glow Expand */
-.badge-item:nth-child(4):hover .badge-icon i {
+.badge-item:nth-child(4):hover .badge-icon i,
+.badge-item:nth-child(4):active .badge-icon i,
+.badge-item:nth-child(4):focus-within .badge-icon i,
+.badge-item:nth-child(4).active .badge-icon i {
     animation: shieldPulse 0.5s ease-in-out forwards;
     color: #10b981;
 }

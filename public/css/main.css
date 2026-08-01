@@ -513,9 +513,13 @@ button, input, select, textarea { font-family: var(--font); }
   padding: 28px 20px; border-radius: var(--radius-lg);
   background: var(--bg); border: 1px solid var(--border);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease, background 0.3s ease;
-  cursor: default; position: relative; overflow: hidden;
+  cursor: pointer; position: relative; overflow: hidden;
+  user-select: none; -webkit-tap-highlight-color: transparent;
 }
-.service-item:hover {
+.service-item:hover,
+.service-item:active,
+.service-item:focus-within,
+.service-item.active {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 16px 36px rgba(244,63,94,0.14), 0 4px 16px rgba(0,0,0,0.06);
   border-color: rgba(244,63,94,0.4);
@@ -531,7 +535,10 @@ button, input, select, textarea { font-family: var(--font); }
 }
 [data-theme="dark"] .service-icon-wrap { background: rgba(244,63,94,.12); }
 
-.service-item:hover .service-icon-wrap {
+.service-item:hover .service-icon-wrap,
+.service-item:active .service-icon-wrap,
+.service-item:focus-within .service-icon-wrap,
+.service-item.active .service-icon-wrap {
   background: linear-gradient(135deg, var(--brand), #e11d48);
   color: #ffffff !important;
   transform: scale(1.1);
@@ -542,7 +549,10 @@ button, input, select, textarea { font-family: var(--font); }
   font-size: 0.95rem; font-weight: 700; color: var(--text);
   transition: color 0.3s ease;
 }
-.service-item:hover h4 { color: var(--brand); }
+.service-item:hover h4,
+.service-item:active h4,
+.service-item:focus-within h4,
+.service-item.active h4 { color: var(--brand); }
 .service-item p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
 
 /* Continuous Ripple Ring Pulse */
@@ -560,7 +570,10 @@ button, input, select, textarea { font-family: var(--font); }
   75% { transform: translateX(4px) rotate(-2deg); }
   100% { transform: translateX(0) rotate(0deg); }
 }
-.service-shipping:hover .service-icon-wrap i {
+.service-shipping:hover .service-icon-wrap i,
+.service-shipping:active .service-icon-wrap i,
+.service-shipping:focus-within .service-icon-wrap i,
+.service-shipping.active .service-icon-wrap i {
   animation: truckDrive 0.6s ease-in-out infinite;
 }
 
@@ -569,7 +582,10 @@ button, input, select, textarea { font-family: var(--font); }
   0% { transform: rotate(0deg); }
   100% { transform: rotate(-360deg); }
 }
-.service-returns:hover .service-icon-wrap i {
+.service-returns:hover .service-icon-wrap i,
+.service-returns:active .service-icon-wrap i,
+.service-returns:focus-within .service-icon-wrap i,
+.service-returns.active .service-icon-wrap i {
   animation: spinUndo 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -581,7 +597,10 @@ button, input, select, textarea { font-family: var(--font); }
   60% { transform: rotate(-10deg) scale(1.15); }
   80% { transform: rotate(10deg) scale(1.15); }
 }
-.service-support:hover .service-icon-wrap i {
+.service-support:hover .service-icon-wrap i,
+.service-support:active .service-icon-wrap i,
+.service-support:focus-within .service-icon-wrap i,
+.service-support.active .service-icon-wrap i {
   animation: headsetWiggle 0.6s ease-in-out;
 }
 
@@ -591,7 +610,10 @@ button, input, select, textarea { font-family: var(--font); }
   50% { transform: scale(1.25); filter: drop-shadow(0 0 10px rgba(16,185,129,0.9)); }
   100% { transform: scale(1.12); filter: drop-shadow(0 0 4px rgba(16,185,129,0.5)); }
 }
-.service-payment:hover .service-icon-wrap i {
+.service-payment:hover .service-icon-wrap i,
+.service-payment:active .service-icon-wrap i,
+.service-payment:focus-within .service-icon-wrap i,
+.service-payment.active .service-icon-wrap i {
   animation: shieldPulse 0.5s ease-in-out forwards;
   color: #10b981;
 }
