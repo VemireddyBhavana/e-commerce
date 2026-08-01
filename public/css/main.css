@@ -498,25 +498,103 @@ button, input, select, textarea { font-family: var(--font); }
 [data-theme="dark"] .product-add-btn { background: var(--surface2); color: var(--text); }
 [data-theme="dark"] .product-add-btn:hover { background: var(--brand); color: #fff; }
 
-/* ── Services Strip ─────────────────────────────────────────────── */
+/* ── Services Strip & Micro-Animations ─────────────────────────────── */
 .services-strip {
-  background: var(--surface); border-top: 1px solid var(--border); padding: 48px 0;
+  background: var(--surface); border-top: 1px solid var(--border); padding: 56px 0;
 }
 .services-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 32px; text-align: center;
+  gap: 24px; text-align: center;
 }
-@media (min-width: 768px) { .services-grid { grid-template-columns: repeat(4, 1fr); } }
-.service-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+@media (min-width: 768px) { .services-grid { grid-template-columns: repeat(4, 1fr); gap: 28px; } }
+
+.service-item {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 28px 20px; border-radius: var(--radius-lg);
+  background: var(--bg); border: 1px solid var(--border);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease, background 0.3s ease;
+  cursor: default; position: relative; overflow: hidden;
+}
+.service-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(244,63,94,0.14), 0 4px 16px rgba(0,0,0,0.06);
+  border-color: rgba(244,63,94,0.4);
+  background: var(--surface);
+}
+
 .service-icon-wrap {
-  width: 64px; height: 64px; border-radius: 50%;
+  width: 72px; height: 72px; border-radius: 50%;
   background: var(--brand-light); color: var(--brand);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.65rem; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, color 0.3s ease;
+  position: relative; animation: ripplePulse 2.5s infinite;
 }
-[data-theme="dark"] .service-icon-wrap { background: rgba(244,63,94,.1); }
-.service-item h4 { font-size: 0.9rem; font-weight: 700; }
-.service-item p { font-size: 0.8rem; color: var(--text-muted); }
+[data-theme="dark"] .service-icon-wrap { background: rgba(244,63,94,.12); }
+
+.service-item:hover .service-icon-wrap {
+  background: linear-gradient(135deg, var(--brand), #e11d48);
+  color: #ffffff !important;
+  transform: scale(1.1);
+  box-shadow: 0 10px 24px rgba(244, 63, 94, 0.4);
+}
+
+.service-item h4 {
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  transition: color 0.3s ease;
+}
+.service-item:hover h4 { color: var(--brand); }
+.service-item p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+
+/* Continuous Ripple Ring Pulse */
+@keyframes ripplePulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.3); }
+  70% { box-shadow: 0 0 0 14px rgba(244, 63, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+
+/* 1. Free Shipping — Truck Drive & Bounce */
+@keyframes truckDrive {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(4px) rotate(-5deg); }
+  50% { transform: translateX(8px) rotate(2deg); }
+  75% { transform: translateX(4px) rotate(-2deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+.service-shipping:hover .service-icon-wrap i {
+  animation: truckDrive 0.6s ease-in-out infinite;
+}
+
+/* 2. Easy Returns — 360° Counter-Clockwise Spin */
+@keyframes spinUndo {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+.service-returns:hover .service-icon-wrap i {
+  animation: spinUndo 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 3. 24/7 Support — Headset Wiggle & Pulse */
+@keyframes headsetWiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-15deg) scale(1.15); }
+  40% { transform: rotate(15deg) scale(1.15); }
+  60% { transform: rotate(-10deg) scale(1.15); }
+  80% { transform: rotate(10deg) scale(1.15); }
+}
+.service-support:hover .service-icon-wrap i {
+  animation: headsetWiggle 0.6s ease-in-out;
+}
+
+/* 4. Secure Payment — Shield Glow Expand */
+@keyframes shieldPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(16,185,129,0)); }
+  50% { transform: scale(1.25); filter: drop-shadow(0 0 10px rgba(16,185,129,0.9)); }
+  100% { transform: scale(1.12); filter: drop-shadow(0 0 4px rgba(16,185,129,0.5)); }
+}
+.service-payment:hover .service-icon-wrap i {
+  animation: shieldPulse 0.5s ease-in-out forwards;
+  color: #10b981;
+}
 
 /* ── Product Detail Page ─────────────────────────────────────────── */
 .breadcrumb {
