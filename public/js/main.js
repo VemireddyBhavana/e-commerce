@@ -319,6 +319,28 @@ async function handleNewsletterSubscribe(e) {
   }
 }
 
+// ── Scroll Reveal Observer ───────────────────────────────────
+function initScrollReveal() {
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0) scale(1)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  const revealTargets = document.querySelectorAll('.product-card, .category-card, .service-item, .order-card');
+  revealTargets.forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px) scale(0.97)';
+    el.style.transition = `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${index % 8 * 0.06}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${index % 8 * 0.06}s`;
+    observer.observe(el);
+  });
+}
+
 // ── Navbar shadow on scroll ───────────────────────────────────
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('navbar');
@@ -331,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkAuthState();
   refreshCartCount();
   updateWishlistBtns();
+  initScrollReveal();
   // Hide global loader after 800ms
   setTimeout(hideLoader, 800);
 });

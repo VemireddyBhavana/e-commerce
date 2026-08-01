@@ -839,78 +839,125 @@ button, input, select, textarea { font-family: var(--font); }
 .footer-bottom p { font-size: 0.8rem; color: var(--text-muted); }
 .payment-icons { display: flex; gap: 12px; font-size: 1.4rem; color: var(--text-muted); }
 
-/* ── Section Padding ──────────────────────────────────────────────── */
-.section-lg { padding: 64px 0; }
-.section-sm { padding: 40px 0; }
+/* ── Rich Modern Animations & Visual Enhancements ──────────────── */
 
-/* ── Responsive Tweaks ────────────────────────────────────────────── */
-@media (max-width: 480px) {
-  .form-row { grid-template-columns: 1fr; }
-  .detail-actions { flex-direction: column; }
-  .auth-card { padding: 28px 20px; }
+/* 1. Product Cards Spring Hover & Glow */
+.product-card {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+  will-change: transform, box-shadow;
+}
+.product-card:hover {
+  transform: translateY(-8px) scale(1.015) !important;
+  box-shadow: 0 16px 36px rgba(244, 63, 94, 0.15), 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(244, 63, 94, 0.35) !important;
+}
+[data-theme="dark"] .product-card:hover {
+  box-shadow: 0 16px 36px rgba(244, 63, 94, 0.22), 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(244, 63, 94, 0.5) !important;
 }
 
-/* ── Page transition ──────────────────────────────────────────────── */
-.page-fade { animation: fadeIn .4s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* 2. Image Hover Smooth Zoom */
+.product-card-img img {
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.product-card:hover .product-card-img img {
+  transform: scale(1.09) rotate(0.5deg) !important;
+}
 
-/* ── Floating action animation ─────────────────────────────────────── */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* 3. Category Cards Elevate & Glow */
+.category-card {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease !important;
 }
-.animate-slide-up { animation: slideUp .5s ease forwards; }
+.category-card:hover {
+  transform: translateY(-6px) scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
+}
 
-/* ── Dark mode: ensure smooth transitions on all surfaces ─────────── */
-[data-theme="dark"] body { color-scheme: dark; }
-[data-theme="dark"] input,
-[data-theme="dark"] select,
-[data-theme="dark"] textarea {
-  background: var(--surface2);
-  color: var(--text);
-  border-color: var(--border);
-  color-scheme: dark;
+/* 4. Pulsing Glowing Badges */
+@keyframes pulseBadge {
+  0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
 }
-[data-theme="dark"] input::placeholder { color: var(--text-light); }
-/* Nav search input in dark mode */
-[data-theme="dark"] .nav-search-input,
-[data-theme="dark"] .nav-mobile-search input {
-  background: var(--surface2);
-  color: var(--text);
+.product-badge {
+  animation: pulseBadge 2.2s infinite;
 }
-/* Footer newsletter in dark mode */
-[data-theme="dark"] .footer-newsletter input { background: var(--surface2); color: var(--text); }
-/* Global loader dark bg */
-[data-theme="dark"] .global-loader { background: var(--bg); }
-/* Cart page items */
-.cart-layout { display: grid; gap: 24px; }
-@media (min-width: 768px) { .cart-layout { grid-template-columns: 1fr 360px; } }
-.cart-item {
-  display: grid; grid-template-columns: 80px 1fr auto auto auto;
-  align-items: center; gap: 16px;
-  padding: 16px 0; border-bottom: 1px solid var(--border);
+
+/* 5. Wishlist Heart Pop Animation */
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.85); }
+  100% { transform: scale(1); }
 }
-.cart-item-img img { width: 80px; height: 90px; object-fit: cover; border-radius: var(--radius-sm); }
-.summary-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 24px; position: sticky;
-  top: calc(var(--nav-h) + 16px); display: flex; flex-direction: column; gap: 12px;
+.product-wishlist-btn:active i,
+.product-wishlist-btn.active i {
+  animation: heartPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.summary-row { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 4px 0; }
-.summary-row.total { font-weight: 800; font-size: 1.05rem; padding-top: 12px; border-top: 1px solid var(--border); }
-.loading-spinner { display: flex; align-items: center; gap: 10px; color: var(--text-muted); padding: 20px; }
-.page-title { font-size: 1.75rem; font-weight: 800; margin-bottom: 32px; }
-.btn-primary { background: var(--brand); color: #fff; }
-.btn-primary:hover { background: var(--brand-dark); }
-.btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
-.btn-outline:hover { border-color: var(--brand); color: var(--brand); }
-.btn-large { padding: 14px 28px; font-size: 1rem; }
-.btn-full { width: 100%; }
-.text-success { color: #10b981; font-weight: 600; }
-.cart-item-qty { display: flex; align-items: center; gap: 8px; }
-.qty-display { min-width: 24px; text-align: center; font-weight: 700; }
-.cart-item-subtotal { font-weight: 700; color: var(--text); min-width: 60px; text-align: right; }
-.empty-cart { display: flex; align-items: center; justify-content: center; min-height: 400px; }
-.empty-state { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.empty-icon { font-size: 5rem; }
-.section { padding: 48px 0; }
+
+/* 6. Service Strip Hover Bouncing Icons */
+.service-icon-wrap {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease !important;
+}
+.service-item:hover .service-icon-wrap {
+  transform: translateY(-6px) rotate(8deg) scale(1.12);
+  background: var(--brand);
+  color: #fff !important;
+  box-shadow: 0 10px 24px rgba(244, 63, 94, 0.3);
+}
+
+/* 7. Button Spring Press & Glow Effects */
+.btn {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.25s ease !important;
+}
+.btn:active {
+  transform: scale(0.95) !important;
+}
+.btn-brand:hover {
+  box-shadow: 0 8px 24px rgba(244, 63, 94, 0.5) !important;
+}
+
+/* 8. Floating Animation for Icons & Highlights */
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.float-icon {
+  animation: floatAnim 3s ease-in-out infinite;
+}
+
+/* 9. Hero Section Glowing Text & Slider Controls */
+.slide-title {
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+.slider-btn:hover {
+  transform: translateY(-50%) scale(1.15) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 10. Nav Theme Toggle Button Spin */
+#themeToggleBtn i, #mobileThemeToggleBtn i {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#themeToggleBtn:hover i, #mobileThemeToggleBtn:hover i {
+  transform: rotate(30deg) scale(1.2);
+}
+
+/* 11. Toast Message Slide & Bounce */
+.toast-msg {
+  animation: toastBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes toastBounce {
+  from { opacity: 0; transform: translate(-50%, 20px) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+/* 12. Modal Fade In & Zoom */
+.modal {
+  animation: modalZoom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes modalZoom {
+  from { opacity: 0; transform: scale(0.88); }
+  to { opacity: 1; transform: scale(1); }
+}
+
