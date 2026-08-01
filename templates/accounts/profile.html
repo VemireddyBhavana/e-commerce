@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Profile – LUXE.{% endblock %}
+{% block content %}
+<section style="padding:40px 0 80px;background:var(--bg);" id="profilePage">
+  <div class="container" style="max-width:800px;">
+    <h1 style="font-size:1.8rem;font-weight:700;margin-bottom:28px;">My Profile</h1>
+
+    <!-- Profile Card -->
+    <div class="profile-hero">
+      <div class="profile-hero-top">
+        <div class="profile-av" id="profileAv">JD</div>
+        <div>
+          <h2 style="font-size:1.4rem;font-weight:700;" id="profileName">Loading…</h2>
+          <p style="color:var(--text-muted);font-size:.875rem;margin-bottom:8px;" id="profileEmail"></p>
+          <span class="vip-badge">LUXE VIP Member</span>
+        </div>
+        <button onclick="handleLogout()" class="btn btn-ghost btn-sm" style="margin-left:auto;" id="profileLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+      <div class="profile-tabs">
+        <button class="profile-tab active" onclick="switchTab('orders')" id="tabOrders"><i class="fas fa-box"></i>Orders</button>
+        <button class="profile-tab" onclick="switchTab('wishlist')" id="tabWishlist"><i class="far fa-heart"></i>Wishlist</button>
+        <button class="profile-tab" onclick="switchTab('settings')" id="tabSettings"><i class="far fa-address-card"></i>Settings</button>
+      </div>
+    </div>
+
+    <!-- Orders Tab -->
+    <div id="tabContentOrders">
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:16px;">Recent Orders</h3>
+      {% if orders %}
+      <div class="orders-list">
+        {% for order in orders %}
+        <div class="order-card-row">
+          <div class="order-icon">📦</div>
+          <div style="flex:1;">
+            <p style="font-weight:700;">Order #{{ order.id }}</p>
+            <p style="font-size:.8rem;color:var(--text-muted);">Placed on {{ order.created_at|date:"M d, Y" }}</p>
+            <span class="order-status-badge status-{{ order.status }}">{{ order.get_status_display }}</span>
+          </div>
+          <div style="text-align:right;">
+            <p style="font-weight:800;font-size:1.05rem;">₹{{ order.total_price }}</p>
+            <p style="font-size:.8rem;color:var(--text-muted);">{{ order.items.count }} item{{ order.items.count|pluralize }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div style="text-align:center;padding:48px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);">
+        <div style="font-size:3rem;margin-bottom:12px;">📦</div>
+        <p style="color:var(--text-muted);">No orders yet. <a href="/products/" style="color:var(--brand);font-weight:600;">Start shopping!</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Wishlist Tab -->
+    <div id="tabContentWishlist" style="display:none;">
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:16px;">My Wishlist</h3>
+      <div id="wishlistLoadingSpinner" style="text-align:center;padding:32px;color:var(--text-muted);">
+        <i class="fas fa-spinner fa-spin" style="font-size:1.8rem;"></i><p style="margin-top:8px;">Loading wishlist…</p>
+      </div>
+      <div id="wishlistGrid" class="products-grid" style="display:none;"></div>
+      <div id="wishlistEmpty" style="display:none;text-align:center;padding:48px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);">
+        <i class="far fa-heart" style="font-size:3rem;color:var(--text-light);margin-bottom:12px;display:block;"></i>
+        <p style="color:var(--text-muted);">Your wishlist is empty.</p>
+        <a href="/products/" class="btn btn-brand btn-sm" style="margin-top:16px;">Explore Products</a>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tabContentSettings" style="display:none;">
+      <div class="card-box">
+        <h2><i class="fas fa-user-edit"></i> Account Settings</h2>
+        <p style="color:var(--text-muted);font-size:.875rem;">Manage your account preferences.</p>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px;">
+          <button onclick="openChangePasswordModal()" class="btn btn-ghost btn-full" id="changePasswordBtn">
+            <i class="fas fa-key"></i> Change Password
+          </button>
+          <button onclick="handleLogout()" class="btn btn-outline-brand btn-full" id="settingsLogoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Change Password Modal ────────────────────────────────── -->
+<div class="modal-overlay hidden" id="changePasswordModal" style="z-index:9999;">
+  <div class="modal" style="max-width:420px;">
+    <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:4px;"><i class="fas fa-key" style="color:var(--brand);margin-right:8px;"></i>Change Password</h2>
+    <p style="font-size:.875rem;color:var(--text-muted);margin-bottom:20px;">Enter your current password, then choose a new one.</p>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="form-group">
+        <label for="cpOldPwd">Current Password</label>
+        <input type="password" id="cpOldPwd" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+      <div class="form-group">
+        <label for="cpNewPwd">New Password <span style="font-size:.8rem;color:var(--text-muted);">(min 8 chars)</span></label>
+        <input type="password" id="cpNewPwd" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <div class="form-group">
+        <label for="cpConfirmPwd">Confirm New Password</label>
+        <input type="password" id="cpConfirmPwd" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <p id="cpError" style="color:#ef4444;font-size:.85rem;display:none;"></p>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button onclick="submitChangePassword()" class="btn btn-primary" style="flex:1;" id="cpSubmitBtn">
+        <i class="fas fa-save"></i> Save Password
+      </button>
+      <button onclick="closeChangePasswordModal()" class="btn btn-ghost" style="flex:1;">Cancel</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Profile load ──────────────────────────────────────────────
+async function loadProfile() {
+  const res = await fetch('/accounts/api/me/', { credentials: 'include' });
+  if (!res.ok) { window.location.href = '/accounts/login/'; return; }
+  const user = await res.json();
+  const name = `${user.first_name} ${user.last_name}`.trim() || user.username;
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('profileAv').textContent = initials;
+  document.getElementById('profileName').textContent = name;
+  document.getElementById('profileEmail').textContent = user.email || '@' + user.username;
+}
+
+// ── Tab switching ─────────────────────────────────────────────
+function switchTab(tab) {
+  ['orders','wishlist','settings'].forEach(t => {
+    const key = t.charAt(0).toUpperCase() + t.slice(1);
+    document.getElementById('tabContent' + key).style.display = 'none';
+    document.getElementById('tab' + key).classList.remove('active');
+  });
+  const key = tab.charAt(0).toUpperCase() + tab.slice(1);
+  document.getElementById('tabContent' + key).style.display = 'block';
+  document.getElementById('tab' + key).classList.add('active');
+  if (tab === 'wishlist') loadWishlist();
+}
+
+// ── Wishlist load from DB ─────────────────────────────────────
+async function loadWishlist() {
+  const spinner = document.getElementById('wishlistLoadingSpinner');
+  const grid    = document.getElementById('wishlistGrid');
+  const empty   = document.getElementById('wishlistEmpty');
+  spinner.style.display = 'block';
+  grid.style.display = 'none';
+  empty.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/wishlist/', { credentials: 'include' });
+    if (!res.ok) throw new Error('not ok');
+    const items = await res.json();
+    spinner.style.display = 'none';
+
+    if (!items || items.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+
+    let html = '';
+    items.forEach(item => {
+      const p = item.product;
+      const img = p.image_url
+        ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy"/>`
+        : `<span class="product-img-placeholder">🛍️</span>`;
+      html += `
+      <div class="product-card" id="wcard-${p.id}">
+        <button class="product-wishlist-btn" onclick="removeFromWishlist(${p.id})" id="wBtn-${p.id}" aria-label="Remove from wishlist">
+          <i class="fas fa-heart" style="color:var(--brand);"></i>
+        </button>
+        <div class="product-card-img" onclick="window.location.href='/products/${p.slug}/';" style="cursor:pointer;">${img}</div>
+        <div class="product-card-body">
+          <div class="product-category-lbl">${p.category_name || ''}</div>
+          <div class="product-card-name">${p.name}</div>
+          <div class="product-price-row">
+            <span class="price-now">₹${p.price}</span>
+            ${p.original_price ? `<span class="price-was">₹${p.original_price}</span>` : ''}
+          </div>
+          ${p.in_stock
+            ? `<button class="product-add-btn" onclick="addToCart(${p.id},'${p.name.replace(/'/g,"\\'")}')" id="addBtn-${p.id}">
+                <i class="fas fa-shopping-bag"></i> Add to Cart
+               </button>`
+            : `<button class="product-add-btn" disabled style="opacity:.5;cursor:not-allowed;">Out of Stock</button>`}
+        </div>
+      </div>`;
+    });
+    grid.innerHTML = html;
+    grid.style.display = 'grid';
+  } catch {
+    spinner.style.display = 'none';
+    empty.style.display = 'block';
+  }
+}
+
+async function removeFromWishlist(productId) {
+  try {
+    const res = await fetch('/api/wishlist/toggle/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+      credentials: 'include',
+      body: JSON.stringify({ product_id: productId }),
+    });
+    if (res.ok) {
+      const card = document.getElementById('wcard-' + productId);
+      if (card) card.remove();
+      showToast('Removed from wishlist.', 'info');
+      const grid = document.getElementById('wishlistGrid');
+      if (grid && grid.querySelectorAll('.product-card').length === 0) {
+        grid.style.display = 'none';
+        document.getElementById('wishlistEmpty').style.display = 'block';
+      }
+    }
+  } catch {
+    showToast('Could not remove. Try again.', 'error');
+  }
+}
+
+// ── Change Password Modal ─────────────────────────────────────
+function openChangePasswordModal() {
+  document.getElementById('changePasswordModal').classList.remove('hidden');
+  document.getElementById('cpOldPwd').value = '';
+  document.getElementById('cpNewPwd').value = '';
+  document.getElementById('cpConfirmPwd').value = '';
+  document.getElementById('cpError').style.display = 'none';
+}
+function closeChangePasswordModal() {
+  document.getElementById('changePasswordModal').classList.add('hidden');
+}
+
+async function submitChangePassword() {
+  const oldPwd     = document.getElementById('cpOldPwd').value;
+  const newPwd     = document.getElementById('cpNewPwd').value;
+  const confirmPwd = document.getElementById('cpConfirmPwd').value;
+  const errEl      = document.getElementById('cpError');
+  const btn        = document.getElementById('cpSubmitBtn');
+  errEl.style.display = 'none';
+
+  if (!oldPwd || !newPwd || !confirmPwd) {
+    errEl.textContent = 'All fields are required.';
+    errEl.style.display = 'block'; return;
+  }
+  if (newPwd !== confirmPwd) {
+    errEl.textContent = 'New passwords do not match.';
+    errEl.style.display = 'block'; return;
+  }
+  if (newPwd.length < 8) {
+    errEl.textContent = 'Password must be at least 8 characters.';
+    errEl.style.display = 'block'; return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+  try {
+    const res = await fetch('/accounts/api/change-password/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+      credentials: 'include',
+      body: JSON.stringify({ old_password: oldPwd, new_password: newPwd }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      closeChangePasswordModal();
+      showToast(data.message || 'Password changed successfully!', 'success');
+    } else {
+      errEl.textContent = data.error || 'Failed to change password.';
+      errEl.style.display = 'block';
+    }
+  } catch {
+    errEl.textContent = 'Network error. Please try again.';
+    errEl.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-save"></i> Save Password';
+}
+
+loadProfile();
+switchTab('orders');   // default to Orders tab — shows real DB data
+</script>
+{% endblock %}

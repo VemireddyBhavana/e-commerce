@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Orders – ShopNova{% endblock %}
+
+{% block content %}
+<section class="section" id="ordersPage">
+  <div class="container">
+    <h1 class="page-title">My Orders</h1>
+    {% if orders %}
+    <div class="orders-list">
+      {% for order in orders %}
+      <div class="order-card" id="order-{{ order.id }}">
+        <div class="order-header">
+          <div>
+            <h3>Order #{{ order.id }}</h3>
+            <span class="order-date">{{ order.created_at|date:"F j, Y" }}</span>
+          </div>
+          <div class="order-meta">
+            <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+            <span class="order-total">₹{{ order.total_price }}</span>
+          </div>
+        </div>
+        <div class="order-items">
+          {% for item in order.items.all %}
+          <div class="order-item">
+            <span class="order-item-name">{{ item.product_name }}</span>
+            <span>× {{ item.quantity }}</span>
+            <span>₹{{ item.subtotal }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="order-footer">
+          <span><i class="fas fa-map-marker-alt"></i> {{ order.city }}, {{ order.state }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📦</div>
+      <h2>No orders yet</h2>
+      <p>You haven't placed any orders. Start shopping!</p>
+      <a href="/products/" class="btn btn-primary btn-large" id="ordersShopBtn">Shop Now</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

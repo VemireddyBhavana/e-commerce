@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login – LUXE.{% endblock %}
+{% block content %}
+<div class="auth-page" id="loginPage">
+  <div class="auth-card">
+    <div class="auth-logo">LUXE<span>.</span></div>
+    <p class="auth-subtitle">Welcome back! Sign in to your account.</p>
+
+    <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="loginUser">Username</label>
+        <input type="text" id="loginUser" name="username" required placeholder="Enter your username" autocomplete="username"/>
+      </div>
+      <div class="form-group">
+        <label for="loginPwd">Password</label>
+        <div class="pwd-wrap">
+          <input type="password" id="loginPwd" name="password" required placeholder="Enter your password" autocomplete="current-password"/>
+          <button type="button" class="toggle-pwd" onclick="togglePwd('loginPwd')" aria-label="Show password"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div id="loginError" class="form-error hidden"></div>
+      <button type="submit" class="btn btn-brand btn-full btn-lg" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </button>
+    </form>
+
+    <div class="auth-divider"><span>or</span></div>
+    <p class="auth-switch">Don't have an account? <a href="/accounts/register/" id="goRegister">Create one free</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function handleLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in…';
+  errEl.classList.add('hidden');
+
+  const res = await fetch('/accounts/api/login/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+    credentials: 'include',
+    body: JSON.stringify({
+      username: document.getElementById('loginUser').value,
+      password: document.getElementById('loginPwd').value,
+    }),
+  });
+  const data = await res.json();
+  if (res.ok) {
+    localStorage.setItem('user', JSON.stringify(data.user));
+    showToast('Welcome back, ' + data.user.username + '! 👋', 'success');
+    setTimeout(() => {
+      const next = new URLSearchParams(window.location.search).get('next') || '/';
+      window.location.href = next;
+    }, 700);
+  } else {
+    errEl.textContent = data.error || 'Invalid username or password.';
+    errEl.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+  }
+}
+function togglePwd(id) {
+  const f = document.getElementById(id);
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+</script>
+{% endblock %}

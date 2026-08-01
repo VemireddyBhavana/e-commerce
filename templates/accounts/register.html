@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register – LUXE.{% endblock %}
+{% block content %}
+<div class="auth-page" id="registerPage">
+  <div class="auth-card">
+    <div class="auth-logo">LUXE<span>.</span></div>
+    <p class="auth-subtitle">Join thousands of happy shoppers today!</p>
+
+    <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group">
+          <label for="regFirst">First Name</label>
+          <input type="text" id="regFirst" name="first_name" placeholder="John"/>
+        </div>
+        <div class="form-group">
+          <label for="regLast">Last Name</label>
+          <input type="text" id="regLast" name="last_name" placeholder="Doe"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regEmail">Email</label>
+        <input type="email" id="regEmail" name="email" required placeholder="john@example.com" autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label for="regUser">Username *</label>
+        <input type="text" id="regUser" name="username" required placeholder="Choose a username" autocomplete="username"/>
+      </div>
+      <div class="form-group">
+        <label for="regPwd">Password *</label>
+        <div class="pwd-wrap">
+          <input type="password" id="regPwd" name="password" required placeholder="Minimum 8 characters" autocomplete="new-password"/>
+          <button type="button" class="toggle-pwd" onclick="togglePwd('regPwd')" aria-label="Show"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regPwd2">Confirm Password *</label>
+        <div class="pwd-wrap">
+          <input type="password" id="regPwd2" name="password2" required placeholder="Repeat password" autocomplete="new-password"/>
+          <button type="button" class="toggle-pwd" onclick="togglePwd('regPwd2')" aria-label="Show"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div id="registerError" class="form-error hidden"></div>
+      <button type="submit" class="btn btn-brand btn-full btn-lg" id="registerBtn">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
+    </form>
+
+    <div class="auth-divider"><span>or</span></div>
+    <p class="auth-switch">Already have an account? <a href="/accounts/login/" id="goLogin">Sign In</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function handleRegister(e) {
+  e.preventDefault();
+  const btn = document.getElementById('registerBtn');
+  const errEl = document.getElementById('registerError');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating…';
+  errEl.classList.add('hidden');
+
+  const data = {
+    username: document.getElementById('regUser').value,
+    email: document.getElementById('regEmail').value,
+    first_name: document.getElementById('regFirst').value,
+    last_name: document.getElementById('regLast').value,
+    password: document.getElementById('regPwd').value,
+    password2: document.getElementById('regPwd2').value,
+  };
+  const res = await fetch('/accounts/api/register/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+    credentials: 'include',
+    body: JSON.stringify(data),
+  });
+  const resData = await res.json();
+  if (res.ok) {
+    localStorage.setItem('user', JSON.stringify(resData.user));
+    showToast('Welcome to LUXE, ' + resData.user.username + '! 🎉', 'success');
+    setTimeout(() => window.location.href = '/', 700);
+  } else {
+    let msg = '';
+    for (const k in resData) {
+      msg += (Array.isArray(resData[k]) ? resData[k].join(', ') : resData[k]) + ' ';
+    }
+    errEl.textContent = msg || 'Registration failed. Please try again.';
+    errEl.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+  }
+}
+function togglePwd(id) {
+  const f = document.getElementById(id);
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+</script>
+{% endblock %}

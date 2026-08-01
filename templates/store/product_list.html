@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Shop – LUXE.{% endblock %}
+
+{% block content %}
+<section style="background:var(--surface);padding:32px 0 64px;" id="shopPage">
+  <div class="container">
+    <!-- Header -->
+    <div style="display:flex;flex-direction:column;gap:8px;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px;">
+      <h1 style="font-size:1.8rem;font-weight:700;">
+        {% if selected_category %}{{ selected_category|title }}{% elif search_query %}Results for "{{ search_query }}"{% else %}All Products{% endif %}
+      </h1>
+      <p style="font-size:.875rem;color:var(--text-muted);">{{ products|length }} item{{ products|length|pluralize }} found</p>
+    </div>
+
+    <div class="shop-layout">
+      <!-- Sidebar Filters -->
+      <aside class="shop-sidebar" id="shopSidebar">
+        <div class="shop-sidebar-sticky">
+          <!-- Categories -->
+          <div class="filter-section">
+            <h3>Categories</h3>
+            <ul class="filter-list">
+              <li><a href="/products/" class="{% if not selected_category %}active{% endif %}" id="filterAll">All Products</a></li>
+              {% for cat in categories %}
+              <li><a href="/products/?category={{ cat.slug }}" class="{% if selected_category == cat.slug %}active{% endif %}" id="filter-{{ cat.slug }}">{{ cat.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- Sort -->
+          <div class="filter-section" style="padding-top:20px;border-top:1px solid var(--border);">
+            <h3>Sort By</h3>
+            <ul class="filter-list">
+              <li><button onclick="sortProducts('default')" id="sortDefault">Default</button></li>
+              <li><button onclick="sortProducts('price-asc')" id="sortAsc">Price: Low to High</button></li>
+              <li><button onclick="sortProducts('price-desc')" id="sortDesc">Price: High to Low</button></li>
+              <li><button onclick="sortProducts('rating')" id="sortRating">Top Rated</button></li>
+            </ul>
+          </div>
+          <!-- Clear -->
+          <a href="/products/" class="btn btn-ghost btn-sm btn-full" id="clearFilters">Clear All Filters</a>
+        </div>
+      </aside>
+
+      <!-- Products Main -->
+      <div style="flex:1;">
+        <!-- Toolbar -->
+        <div class="shop-toolbar" id="shopToolbar">
+          <button class="shop-filter-toggle" onclick="toggleMobileSidebar()" id="filterToggleBtn">
+            <i class="fas fa-filter"></i> Filters
+          </button>
+          <div style="display:flex;align-items:center;gap:10px;margin-left:auto;">
+            <!-- Shuffle button like Meesho -->
+            <button onclick="shufflePage()" id="shuffleBtn" title="Shuffle products"
+              style="display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:none;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text);transition:var(--transition);"
+              onmouseover="this.style.borderColor='var(--brand)';this.style.color='var(--brand)'"
+              onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">
+              <i class="fas fa-random"></i> Shuffle
+            </button>
+            <select id="sortSelect" onchange="sortProductsURL(this.value)">
+              <option value="" {% if not current_sort %}selected{% endif %}>Sort: Recommended</option>
+              <option value="price-asc" {% if current_sort == 'price-asc' %}selected{% endif %}>Price: Low to High</option>
+              <option value="price-desc" {% if current_sort == 'price-desc' %}selected{% endif %}>Price: High to Low</option>
+              <option value="rating" {% if current_sort == 'rating' %}selected{% endif %}>Top Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="products-grid" id="productsGrid">
+          {% for product in products %}
+          <div class="product-card" data-price="{{ product.price }}" data-rating="{{ product.rating }}" id="pcard-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
+            {% if product.discount_percent > 0 %}
+            <span class="product-badge">-{{ product.discount_percent }}%</span>
+            {% endif %}
+            <button class="product-wishlist-btn" onclick="event.stopPropagation();toggleWishlist({{ product.id }})" id="wBtn-{{ product.id }}" aria-label="Wishlist"><i class="far fa-heart"></i></button>
+            <div class="product-card-img">
+              {% if product.image_url %}
+              <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
+              {% else %}
+              <span class="product-img-placeholder">🛍️</span>
+              {% endif %}
+            </div>
+            <div class="product-card-body">
+              <div class="product-category-lbl">{{ product.category.name }}</div>
+              <div class="product-card-name">{{ product.name }}</div>
+              <div class="product-stars">
+                {% for i in "12345" %}<i class="{% if forloop.counter <= product.rating %}fas{% else %}far{% endif %} fa-star"></i>{% endfor %}
+                <span>({{ product.review_count }})</span>
+              </div>
+              <div class="product-price-row">
+                <span class="price-now">?{{ product.price }}</span>
+                {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+              </div>
+              {% if product.in_stock %}
+              <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtn-{{ product.id }}">
+                <i class="fas fa-shopping-bag"></i> Add to Cart
+              </button>
+              {% else %}
+              <button class="product-add-btn" style="opacity:.5;cursor:not-allowed;" disabled>Out of Stock</button>
+              {% endif %}
+            </div>
+          </div>
+          {% empty %}
+          <div style="grid-column:1/-1;text-align:center;padding:64px;color:var(--text-muted);">
+            <div style="font-size:3rem;margin-bottom:16px;">😕</div>
+            <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">No products found</h3>
+            <p>Try adjusting your search or filters.</p>
+            <a href="/products/" class="btn btn-brand" style="margin-top:20px;">Clear Filters</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* Build URL preserving category & search, changing only sort */
+function sortProductsURL(sortValue) {
+  const params = new URLSearchParams(window.location.search);
+  if (sortValue) params.set('sort', sortValue);
+  else params.delete('sort');
+  window.location.href = '/products/?' + params.toString();
+}
+
+/* Shuffle = reload page without a sort param (server randomises) */
+function shufflePage() {
+  const params = new URLSearchParams(window.location.search);
+  params.delete('sort');
+  // Add a random seed so browser doesn't serve cached page
+  params.set('_r', Math.random().toString(36).slice(2, 7));
+  window.location.href = '/products/?' + params.toString();
+}
+
+function toggleMobileSidebar() {
+  const sb = document.getElementById('shopSidebar');
+  if (sb) { sb.style.display = sb.style.display === 'block' ? 'none' : 'block'; }
+}
+</script>
+{% endblock %}
+

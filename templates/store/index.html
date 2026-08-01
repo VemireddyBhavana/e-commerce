@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}LUXE. – Premium E-Commerce{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero Slider ────────────────────────────────────────── -->
+<section class="hero-slider" id="heroSlider" aria-label="Hero">
+  <!-- Slide 1 -->
+  <div class="slide active" id="slide0">
+    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1920&q=80&auto=format&fit=crop" alt="Autumn Collection" loading="eager"/>
+    <div class="slide-overlay">
+      <span class="slide-badge animate-slide-up" style="animation-delay:.1s">New Arrival</span>
+      <h2 class="slide-title animate-slide-up" style="animation-delay:.2s">Autumn Collection</h2>
+      <a href="/products/" class="btn btn-white btn-lg animate-slide-up" style="animation-delay:.3s" id="heroShopNow1">Shop Now</a>
+    </div>
+  </div>
+  <!-- Slide 2 -->
+  <div class="slide" id="slide1">
+    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1920&q=80&auto=format&fit=crop" alt="Urban Essentials" loading="lazy"/>
+    <div class="slide-overlay">
+      <span class="slide-badge">Exclusive</span>
+      <h2 class="slide-title">Urban Essentials</h2>
+      <a href="/products/" class="btn btn-brand btn-lg" id="heroShopNow2" style="box-shadow:0 0 20px rgba(244,63,94,.5);">Discover Now</a>
+    </div>
+  </div>
+  <!-- Slide 3 -->
+  <div class="slide" id="slide2">
+    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&q=80&auto=format&fit=crop" alt="Women's Collection" loading="lazy"/>
+    <div class="slide-overlay">
+      <span class="slide-badge">Trending</span>
+      <h2 class="slide-title">Women's Picks</h2>
+      <a href="/products/" class="btn btn-white btn-lg" id="heroShopNow3">Shop Collection</a>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <button class="slider-btn prev" onclick="prevSlide()" id="sliderPrev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+  <button class="slider-btn next" onclick="nextSlide()" id="sliderNext" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+  <div class="slider-dots" id="sliderDots">
+    <button class="dot active" onclick="goToSlide(0)" id="dot0"></button>
+    <button class="dot" onclick="goToSlide(1)" id="dot1"></button>
+    <button class="dot" onclick="goToSlide(2)" id="dot2"></button>
+  </div>
+</section>
+
+<!-- ── Categories ─────────────────────────────────────────── -->
+<section class="section-lg" id="categoriesSection">
+  <div class="container">
+    <div class="section-header-bar">
+      <div>
+        <h2 style="font-size:1.6rem;font-weight:700;">Shop by Category</h2>
+        <div class="section-underline"></div>
+      </div>
+    </div>
+    <div class="categories-grid" id="categoriesGrid">
+      {% for cat in all_categories %}
+      <a href="/products/?category={{ cat.slug }}" class="category-card" id="cat-{{ cat.slug }}">
+        {% if cat.image %}
+        <img src="{{ cat.image.url }}" alt="{{ cat.name }}"/>
+        {% else %}
+        <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=500&q=80&auto=format&fit=crop" alt="{{ cat.name }}"/>
+        {% endif %}
+        <div class="category-card-overlay"></div>
+        <div class="category-card-label">
+          <h3>{{ cat.name }}</h3>
+          <span>Explore Now →</span>
+        </div>
+      </a>
+      {% empty %}
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">
+        <p>No categories yet. <a href="/admin/" style="color:var(--brand);">Add categories in admin →</a></p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── Sale Banner ───────────────────────────────────────────── -->
+<div class="flash-banner" id="flashBanner">
+  <div class="flash-banner-pattern"></div>
+  <div class="flash-banner-inner">
+    <div>
+      <div class="flash-title">Flash Sale — Up to 50% OFF</div>
+      <p style="color:#d1d5db;font-size:.95rem;">Limited time offer. Shop now before it ends!</p>
+    </div>
+    <div class="flash-timer">
+      <div class="timer-block">
+        <span id="timerHours">00</span><span>Hours</span>
+      </div>
+      <div class="timer-block">
+        <span id="timerMins">00</span><span>Mins</span>
+      </div>
+      <div class="timer-block">
+        <span id="timerSecs">00</span><span>Secs</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Trending Products ────────────────────────────────────── -->
+<section class="section-lg" id="trendingSection" style="background:var(--bg);">
+  <div class="container">
+    <div class="section-header-bar">
+      <div>
+        <h2 style="font-size:1.6rem;font-weight:700;">Trending Now</h2>
+        <div class="section-underline"></div>
+      </div>
+      <a href="/products/" class="section-view-all" id="viewAllTrending">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="products-grid" id="featuredGrid">
+      {% for product in featured_products %}
+      <div class="product-card" id="pcard-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
+        {% if product.discount_percent > 0 %}
+        <span class="product-badge">-{{ product.discount_percent }}%</span>
+        {% endif %}
+        <button class="product-wishlist-btn" onclick="event.stopPropagation();toggleWishlist({{ product.id }})" id="wBtn-{{ product.id }}" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="product-card-img">
+          {% if product.image_url %}
+          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
+          {% else %}
+          <span class="product-img-placeholder">🛍️</span>
+          {% endif %}
+        </div>
+        <div class="product-card-body">
+          <div class="product-category-lbl">{{ product.category.name }}</div>
+          <div class="product-card-name">{{ product.name }}</div>
+          <div class="product-stars">
+            {% for i in "12345" %}
+              <i class="{% if forloop.counter <= product.rating %}fas{% else %}far{% endif %} fa-star"></i>
+            {% endfor %}
+            <span>({{ product.review_count }})</span>
+          </div>
+          <div class="product-price-row">
+            <span class="price-now">?{{ product.price }}</span>
+            {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+          </div>
+          <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtn-{{ product.id }}">
+            <i class="fas fa-shopping-bag"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+      {% empty %}
+      <div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-muted);">
+        <p>No featured products yet. <a href="/admin/" style="color:var(--brand);">Add some in admin →</a></p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── New Arrivals ───────────────────────────────────────── -->
+{% if new_arrivals %}
+<section class="section-lg" id="newArrivalsSection" style="background:var(--surface);">
+  <div class="container">
+    <div class="section-header-bar">
+      <div>
+        <h2 style="font-size:1.6rem;font-weight:700;">New Arrivals</h2>
+        <div class="section-underline" style="background:linear-gradient(90deg,#0ea5e9,#6366f1);"></div>
+      </div>
+      <a href="/products/" class="section-view-all" id="viewAllNew" style="color:#0ea5e9;">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="products-grid" id="newArrivalsGrid">
+      {% for product in new_arrivals %}
+      <div class="product-card" id="pcardN-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
+        <span class="product-badge" style="background:#0ea5e9;">NEW</span>
+        <button class="product-wishlist-btn" onclick="event.stopPropagation();toggleWishlist({{ product.id }})" id="wBtnN-{{ product.id }}" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="product-card-img">
+          {% if product.image_url %}
+          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
+          {% else %}
+          <span class="product-img-placeholder">🛍️</span>
+          {% endif %}
+        </div>
+        <div class="product-card-body">
+          <div class="product-category-lbl">{{ product.category.name }}</div>
+          <div class="product-card-name">{{ product.name }}</div>
+          <div class="product-stars">
+            {% for i in "12345" %}<i class="{% if forloop.counter <= product.rating %}fas{% else %}far{% endif %} fa-star"></i>{% endfor %}
+            <span>({{ product.review_count }})</span>
+          </div>
+          <div class="product-price-row">
+            <span class="price-now">?{{ product.price }}</span>
+            {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+          </div>
+          <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtnN-{{ product.id }}">
+            <i class="fas fa-shopping-bag"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Top Deals ──────────────────────────────────────────── -->
+{% if top_deals %}
+<section class="section-lg" id="topDealsSection" style="background:var(--bg);">
+  <div class="container">
+    <div class="section-header-bar">
+      <div>
+        <h2 style="font-size:1.6rem;font-weight:700;">🔥 Top Deals</h2>
+        <div class="section-underline" style="background:linear-gradient(90deg,#f43f5e,#f97316);"></div>
+      </div>
+      <a href="/products/" class="section-view-all" id="viewAllDeals" style="color:#f97316;">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="products-grid" id="topDealsGrid">
+      {% for product in top_deals %}
+      <div class="product-card" id="pcardD-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
+        {% if product.discount_percent > 0 %}
+        <span class="product-badge" style="background:linear-gradient(135deg,#f43f5e,#f97316);">-{{ product.discount_percent }}% OFF</span>
+        {% endif %}
+        <button class="product-wishlist-btn" onclick="event.stopPropagation();toggleWishlist({{ product.id }})" id="wBtnD-{{ product.id }}" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="product-card-img">
+          {% if product.image_url %}
+          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"/>
+          {% else %}
+          <span class="product-img-placeholder">🛍️</span>
+          {% endif %}
+        </div>
+        <div class="product-card-body">
+          <div class="product-category-lbl">{{ product.category.name }}</div>
+          <div class="product-card-name">{{ product.name }}</div>
+          <div class="product-stars">
+            {% for i in "12345" %}<i class="{% if forloop.counter <= product.rating %}fas{% else %}far{% endif %} fa-star"></i>{% endfor %}
+            <span>({{ product.review_count }})</span>
+          </div>
+          <div class="product-price-row">
+            <span class="price-now">?{{ product.price }}</span>
+            {% if product.original_price %}<span class="price-was">?{{ product.original_price }}</span>{% endif %}
+            {% if product.discount_percent > 0 %}<span style="font-size:.7rem;color:#10b981;font-weight:700;">{{ product.discount_percent }}% off</span>{% endif %}
+          </div>
+          <button class="product-add-btn" onclick="event.stopPropagation();addToCart({{ product.id }},'{{ product.name|escapejs }}')" id="addBtnD-{{ product.id }}">
+            <i class="fas fa-shopping-bag"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── Services ────────────────────────────────────────────── -->
+<section class="services-strip" id="servicesSection">
+  <div class="container">
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-icon-wrap"><i class="fas fa-truck-fast"></i></div>
+        <h4>Free Shipping</h4>
+        <p>On all orders over $100</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon-wrap"><i class="fas fa-undo"></i></div>
+        <h4>Easy Returns</h4>
+        <p>30 days return policy</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon-wrap"><i class="fas fa-headset"></i></div>
+        <h4>24/7 Support</h4>
+        <p>Dedicated online support</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon-wrap"><i class="fas fa-shield-alt"></i></div>
+        <h4>Secure Payment</h4>
+        <p>100% secure checkout</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Hero Slider ──────────────────────────────────────────
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+
+function goToSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+function nextSlide() { goToSlide(currentSlide + 1); }
+function prevSlide() { goToSlide(currentSlide - 1); }
+setInterval(nextSlide, 5000);
+
+// ── Flash Sale Timer (counts down to midnight tonight) ───────
+function startTimer() {
+  function tick() {
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0); // next midnight
+    const diff = Math.max(0, Math.floor((midnight - now) / 1000));
+    const h = Math.floor(diff / 3600);
+    const m = Math.floor((diff % 3600) / 60);
+    const s = diff % 60;
+    const hEl = document.getElementById('timerHours');
+    const mEl = document.getElementById('timerMins');
+    const sEl = document.getElementById('timerSecs');
+    if (hEl) hEl.textContent = String(h).padStart(2, '0');
+    if (mEl) mEl.textContent = String(m).padStart(2, '0');
+    if (sEl) sEl.textContent = String(s).padStart(2, '0');
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+startTimer();
+</script>
+{% endblock %}

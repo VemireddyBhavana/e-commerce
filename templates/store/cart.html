@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Cart – ShopNova{% endblock %}
+
+{% block content %}
+<section class="section" id="cartPage">
+  <div class="container">
+    <h1 class="page-title">Shopping Cart</h1>
+    <div id="cartContent">
+      <div class="cart-layout">
+        <!-- Cart Items -->
+        <div class="cart-items" id="cartItems">
+          <div class="loading-spinner" id="cartLoading">
+            <i class="fas fa-spinner fa-spin"></i> Loading cart…
+          </div>
+        </div>
+        <!-- Cart Summary -->
+        <div class="cart-summary" id="cartSummary">
+          <div class="summary-card">
+            <h3>Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">₹0.00</span></div>
+            <div class="summary-row"><span>Shipping</span><span class="text-success">FREE</span></div>
+            <div class="summary-row total"><span>Total</span><span id="summaryTotal">₹0.00</span></div>
+            <a href="/checkout/" class="btn btn-primary btn-full btn-large" id="checkoutBtn">
+              <i class="fas fa-lock"></i> Proceed to Checkout
+            </a>
+            <a href="/products/" class="btn btn-outline btn-full" id="continueShoppingBtn">
+              <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty Cart State -->
+    <div class="empty-cart hidden" id="emptyCart">
+      <div class="empty-state">
+        <div class="empty-icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added anything yet!</p>
+        <a href="/products/" class="btn btn-primary btn-large" id="emptyCartShop">Start Shopping</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function loadCartPage() {
+  const res = await fetch('/api/cart/', {credentials: 'include'});
+  const cart = await res.json();
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('emptyCart');
+  const loading = document.getElementById('cartLoading');
+  loading.classList.add('hidden');
+
+  if (!cart.items || cart.items.length === 0) {
+    document.getElementById('cartContent').classList.add('hidden');
+    emptyEl.classList.remove('hidden');
+    return;
+  }
+
+  let html = '';
+  cart.items.forEach(item => {
+    html += `
+    <div class="cart-item" id="cartItem-${item.id}">
+      <div class="cart-item-img">
+        ${item.product_image ? `<img src="${item.product_image}" alt="${item.product_name}"/>` : '<div class="product-img-placeholder small">🛍️</div>'}
+      </div>
+      <div class="cart-item-info">
+        <h3>${item.product_name}</h3>
+        <span class="cart-item-price">₹${item.product_price}</span>
+      </div>
+      <div class="cart-item-qty">
+        <button onclick="updateCartItem(${item.id}, ${item.quantity - 1})" class="qty-btn" id="minus-${item.id}">–</button>
+        <span class="qty-display" id="qty-${item.id}">${item.quantity}</span>
+        <button onclick="updateCartItem(${item.id}, ${item.quantity + 1})" class="qty-btn" id="plus-${item.id}">+</button>
+      </div>
+      <div class="cart-item-subtotal">₹${item.subtotal}</div>
+      <button class="cart-item-remove" onclick="removeCartItem(${item.id})" id="remove-${item.id}" aria-label="Remove">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>`;
+  });
+  itemsEl.innerHTML = html;
+  document.getElementById('summarySubtotal').textContent = '₹' + cart.total_price;
+  document.getElementById('summaryTotal').textContent = '₹' + cart.total_price;
+}
+
+async function updateCartItem(itemId, qty) {
+  if (qty < 0) return;
+  await fetch(`/api/cart/update/${itemId}/`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken')},
+    credentials: 'include',
+    body: JSON.stringify({quantity: qty})
+  });
+  await loadCartPage();
+  await refreshCartCount();
+}
+
+async function removeCartItem(itemId) {
+  await fetch(`/api/cart/remove/${itemId}/`, {
+    method: 'DELETE',
+    headers: {'X-CSRFToken': getCookie('csrftoken')},
+    credentials: 'include'
+  });
+  await loadCartPage();
+  await refreshCartCount();
+}
+
+loadCartPage();
+</script>
+{% endblock %}
