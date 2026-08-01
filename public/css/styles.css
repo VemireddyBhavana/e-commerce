@@ -53,6 +53,113 @@ body.dark-mode {
     --accent-light: rgba(244, 63, 94, 0.15);
 }
 
+/* ==========================================================================
+   Features Badges / Services Strip Animations for index.html
+   ========================================================================== */
+.features-badges-section {
+    padding: 64px 0;
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 64px;
+}
+
+.features-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    text-align: center;
+}
+
+@media (max-width: 992px) {
+    .features-badges-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (max-width: 576px) {
+    .features-badges-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+
+.badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 24px;
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+.badge-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 36px rgba(244, 63, 94, 0.15), 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: rgba(244, 63, 94, 0.4);
+    background-color: var(--bg-card);
+}
+
+.badge-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: var(--accent-light);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    animation: ripplePulse 2.5s infinite;
+}
+
+.badge-item:hover .badge-icon {
+    background: linear-gradient(135deg, var(--accent), #e11d48);
+    color: #ffffff !important;
+    transform: scale(1.1);
+    box-shadow: 0 10px 24px rgba(244, 63, 94, 0.4);
+}
+
+.badge-text h4 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+.badge-item:hover .badge-text h4 {
+    color: var(--accent);
+}
+
+.badge-text p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Micro-animations per icon */
+/* Truck drive */
+.badge-item:nth-child(1):hover .badge-icon i {
+    animation: truckDrive 0.6s ease-in-out infinite;
+}
+/* Rotate Undo */
+.badge-item:nth-child(2):hover .badge-icon i {
+    animation: spinUndo 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* Headset Wiggle */
+.badge-item:nth-child(3):hover .badge-icon i {
+    animation: headsetWiggle 0.6s ease-in-out;
+}
+/* Shield Glow Expand */
+.badge-item:nth-child(4):hover .badge-icon i {
+    animation: shieldPulse 0.5s ease-in-out forwards;
+    color: #10b981;
+}
+
 /* Base Styles */
 * {
     margin: 0;
