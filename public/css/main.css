@@ -99,19 +99,15 @@ ul { list-style: none; }
 
 /* ─── Navbar ──────────────────────────────────────────── */
 .navbar {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   height: var(--nav-h);
   position: sticky;
   top: 0;
   z-index: 200;
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 0 rgba(0,0,0,.05);
-}
-.nav-inner {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  height: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 .nav-logo {
   display: inline-flex;
@@ -357,7 +353,7 @@ ul { list-style: none; }
 /* ─── Hero Section ────────────────────────────────────── */
 .hero-section {
   background: var(--bg);
-  padding: 80px 0 60px;
+  padding: 56px 0 60px;
   overflow: hidden;
 }
 .hero-inner {
@@ -657,7 +653,7 @@ ul { list-style: none; }
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--border-light);
 }
