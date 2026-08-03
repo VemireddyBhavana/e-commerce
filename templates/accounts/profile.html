@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}My Profile – LUXE.{% endblock %}
+{% block title %}My Profile – LuxeStore{% endblock %}
 {% block content %}
 <section style="padding:40px 0 80px;background:var(--bg);" id="profilePage">
   <div class="container" style="max-width:800px;">
@@ -13,7 +13,14 @@
         <div>
           <h2 style="font-size:1.4rem;font-weight:700;" id="profileName">Loading…</h2>
           <p style="color:var(--text-muted);font-size:.875rem;margin-bottom:8px;" id="profileEmail"></p>
-          <span class="vip-badge">LUXE VIP Member</span>
+          <span class="vip-badge" style="display:inline-flex;align-items:center;gap:6px;">
+            <span class="logo-icon" style="width:14px;height:14px;display:inline-flex;">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#E91E8C"/>
+              </svg>
+            </span>
+            LUXESTORE VIP Member
+          </span>
         </div>
         <button onclick="handleLogout()" class="btn btn-ghost btn-sm" style="margin-left:auto;" id="profileLogoutBtn">
           <i class="fas fa-sign-out-alt"></i> Logout
