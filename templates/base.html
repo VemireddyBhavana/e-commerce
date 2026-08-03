@@ -6,7 +6,7 @@
   <title>{% block title %}LuxeStore – Premium Fashion{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}LuxeStore – Discover premium fashion, trending styles, and exclusive collections for men, women, and kids.{% endblock %}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}?v=5"/>
@@ -40,25 +40,7 @@
 <!-- ── Toast Container ────────────────────────────────── -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ── Marquee Announcement Bar ───────────────────────── -->
-<div class="marquee-bar">
-  <div class="marquee-track" id="marqueeTrack">
-    <span>NEW FASHION COLLECTION 2026</span><span class="marquee-dot">·</span>
-    <span>FREE SHIPPING OVER ₹999</span><span class="marquee-dot">·</span>
-    <span>500+ BRANDS</span><span class="marquee-dot">·</span>
-    <span>ELEVATE YOUR STYLE</span><span class="marquee-dot">·</span>
-    <span>NEW FASHION COLLECTION 2026</span><span class="marquee-dot">·</span>
-    <span>FREE SHIPPING OVER ₹999</span><span class="marquee-dot">·</span>
-    <span>500+ BRANDS</span><span class="marquee-dot">·</span>
-    <span>ELEVATE YOUR STYLE</span><span class="marquee-dot">·</span>
-    <span>NEW FASHION COLLECTION 2026</span><span class="marquee-dot">·</span>
-    <span>FREE SHIPPING OVER ₹999</span><span class="marquee-dot">·</span>
-    <span>500+ BRANDS</span><span class="marquee-dot">·</span>
-    <span>ELEVATE YOUR STYLE</span><span class="marquee-dot">·</span>
-  </div>
-</div>
-
-<!-- ── Navbar ─────────────────────────────────────────── -->
+<!-- ── Navbar (Topmost) ───────────────────────────────── -->
 <header class="navbar" id="navbar">
   <div class="container nav-inner">
     <!-- Mobile Menu Toggle -->
@@ -73,7 +55,7 @@
           <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#E91E8C"/>
         </svg>
       </span>
-      Luxe<span class="nav-logo-text-accent">Store</span>
+      Zyvora
     </a>
 
     <!-- Desktop Category Links -->
@@ -141,6 +123,23 @@
     </div>
   </div>
 </header>
+
+<!-- ── Marquee Announcement Bar (Below Navbar) ─────────── -->
+<div class="marquee-bar">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>FREE SHIPPING OVER ₹999</span><span class="marquee-dot">·</span>
+    <span>500+ BRANDS</span><span class="marquee-dot">·</span>
+    <span>ELEVATE YOUR STYLE</span><span class="marquee-dot">·</span>
+    <span>NEW FASHION COLLECTION 2026</span><span class="marquee-dot">·</span>
+    <span>FREE SHIPPING OVER ₹999</span><span class="marquee-dot">·</span>
+    <span>500+ BRANDS</span><span class="marquee-dot">·</span>
+    <span>ELEVATE YOUR STYLE</span><span class="marquee-dot">·</span>
+    <span>NEW FASHION COLLECTION 2026</span><span class="marquee-dot">·</span>
+    <span>FREE SHIPPING OVER ₹999</span><span class="marquee-dot">·</span>
+    <span>500+ BRANDS</span><span class="marquee-dot">·</span>
+    <span>ELEVATE YOUR STYLE</span><span class="marquee-dot">·</span>
+  </div>
+</div>
 
 <!-- ── Mobile Navigation Drawer ────────────────────────── -->
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="var d=document.getElementById('mobileMenuDrawer'),o=document.getElementById('mobileMenuOverlay');if(d&&o){d.classList.toggle('open');o.classList.toggle('open');}"></div>
