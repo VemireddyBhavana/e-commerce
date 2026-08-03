@@ -108,6 +108,12 @@ ul { list-style: none; }
   z-index: 200;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  width: 100%;
+}
+.navbar .container {
+  max-width: 1440px;
+  padding: 0 32px;
+  width: 100%;
 }
 .nav-logo {
   display: inline-flex;
@@ -187,13 +193,11 @@ ul { list-style: none; }
 .nav-links {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
+  gap: 3px;
   list-style: none;
   margin: 0;
   padding: 0;
-  flex: 1;
-  min-width: 0;
+  flex-shrink: 0;
 }
 .nav-links li {
   display: inline-flex;
@@ -219,17 +223,17 @@ ul { list-style: none; }
   align-items: center;
   background: var(--surface2);
   border-radius: var(--radius-full);
-  padding: 0 14px;
-  height: 38px;
-  gap: 8px;
-  width: 190px;
-  flex-shrink: 0;
-  transition: box-shadow var(--transition), background var(--transition), width var(--transition);
+  padding: 0 16px;
+  height: 40px;
+  gap: 10px;
+  flex: 1;
+  max-width: 320px;
+  min-width: 180px;
+  transition: box-shadow var(--transition), background var(--transition);
 }
 .nav-search:focus-within {
   box-shadow: 0 0 0 2px var(--brand);
   background: #fff;
-  width: 240px;
 }
 .nav-search i { color: var(--text-light); font-size: .85rem; }
 .nav-search input {
@@ -244,8 +248,9 @@ ul { list-style: none; }
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   flex-shrink: 0;
+  margin-left: auto;
 }
 .mobile-nav-toggle {
   display: none;
@@ -262,9 +267,9 @@ ul { list-style: none; }
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 4px 8px;
-  min-width: 46px;
-  font-size: .68rem;
+  padding: 4px 10px;
+  min-width: 50px;
+  font-size: .7rem;
   color: var(--text);
   font-weight: 600;
   border-radius: var(--radius-sm);
