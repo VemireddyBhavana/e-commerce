@@ -66,12 +66,21 @@ function updateWishlistBadge(count) {
   }
 }
 
+// ── Mobile Menu ───────────────────────────────────────────
+window.toggleMobileMenu = function() {
+  const drawer = document.getElementById('mobileMenuDrawer');
+  const overlay = document.getElementById('mobileMenuOverlay');
+  if (!drawer || !overlay) return;
+  drawer.classList.toggle('open');
+  overlay.classList.toggle('open');
+};
+
 // ── Profile Dropdown ───────────────────────────────────────
-function toggleProfileDropdown() {
+window.toggleProfileDropdown = function() {
   const dropdown = document.getElementById('profileDropdown');
   if (!dropdown) return;
   dropdown.classList.toggle('open');
-}
+};
 
 document.addEventListener('click', (e) => {
   const wrap = document.querySelector('.nav-profile-wrap');
