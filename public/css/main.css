@@ -1,4 +1,4 @@
-/* ─── Zyvora Design System ─────────────────────────────── */
+/* ─── LuxeStore Design System ─────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap');
 
 :root {
@@ -880,7 +880,7 @@ ul { list-style: none; }
   height: 100%;
   object-fit: cover;
 }
-.zyvora-pick-badge {
+.luxestore-pick-badge {
   position: absolute;
   top: 16px;
   left: 16px;
@@ -894,7 +894,7 @@ ul { list-style: none; }
   gap: 6px;
   box-shadow: var(--shadow-sm);
 }
-.zyvora-pick-badge .star { color: var(--brand); }
+.luxestore-pick-badge .star { color: var(--brand); }
 
 .product-detail-info {
   padding-top: 8px;
