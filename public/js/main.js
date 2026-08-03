@@ -45,6 +45,11 @@ function updateCartBadge(count) {
   badge.textContent = count;
   if (count > 0) {
     badge.classList.remove('nav-badge-hidden');
+    badge.animate([
+      { transform: 'scale(1)' },
+      { transform: 'scale(1.45)' },
+      { transform: 'scale(1)' }
+    ], { duration: 350, easing: 'cubic-bezier(.34,1.56,.64,1)' });
   } else {
     badge.classList.add('nav-badge-hidden');
   }
@@ -144,16 +149,21 @@ async function addToCart(productId, productName, qty = 1) {
 
 async function handleAddCart(productId, productName, btn) {
   if (btn && btn.classList.contains('in-cart')) {
-    spaNavigate('/cart/');
+    window.location.href = '/cart/';
     return;
   }
   const success = await addToCart(productId, productName);
   if (success && btn) {
-    btn.textContent = 'Go To Cart';
+    btn.innerHTML = '<i class="fas fa-check"></i> Go To Cart';
     btn.classList.add('in-cart');
+    btn.animate([
+      { transform: 'scale(0.92)' },
+      { transform: 'scale(1.08)' },
+      { transform: 'scale(1)' }
+    ], { duration: 300, easing: 'cubic-bezier(.34,1.56,.64,1)' });
     btn.onclick = (e) => {
       e.stopPropagation();
-      spaNavigate('/cart/');
+      window.location.href = '/cart/';
     };
   }
 }

@@ -78,9 +78,11 @@
 
     <!-- Search -->
     <div class="nav-search">
-      <i class="fas fa-search"></i>
-      <form action="/products/" method="GET" style="flex:1;">
-        <input type="text" name="q" placeholder="Search for products, brands and more" id="desktopSearch" value="{{ search_query|default:'' }}"/>
+      <form action="/products/" method="GET" style="flex:1;display:flex;align-items:center;gap:10px;" id="navSearchForm">
+        <button type="submit" style="background:none;border:none;padding:0;cursor:pointer;color:var(--text-light);" aria-label="Submit search" id="navSearchSubmit">
+          <i class="fas fa-search"></i>
+        </button>
+        <input type="text" name="q" placeholder="Search for products, brands and more" id="desktopSearch" value="{{ search_query|default:'' }}" style="flex:1;"/>
       </form>
     </div>
 
