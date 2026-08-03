@@ -133,6 +133,63 @@ def orders_page(request):
     return render(request, 'store/orders.html', {'orders': orders})
 
 
+def about_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'About Us',
+        'subtitle': 'Curating fashion for the contemporary lifestyle.',
+        'content_type': 'about'
+    })
+
+def contact_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Contact Us',
+        'subtitle': 'We are here to help you 24/7.',
+        'content_type': 'contact'
+    })
+
+def returns_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Returns & Exchanges',
+        'subtitle': 'Hassle-free 30-day return policy.',
+        'content_type': 'returns'
+    })
+
+def faqs_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Frequently Asked Questions',
+        'subtitle': 'Find quick answers to common questions.',
+        'content_type': 'faqs'
+    })
+
+def shipping_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Shipping & Delivery',
+        'subtitle': 'Fast global shipping on all orders.',
+        'content_type': 'shipping'
+    })
+
+def careers_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Careers at LuxeStore',
+        'subtitle': 'Join our global team of visionaries and creators.',
+        'content_type': 'careers'
+    })
+
+def press_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Press & Media',
+        'subtitle': 'Latest news, press releases, and media kits.',
+        'content_type': 'press'
+    })
+
+def blog_page(request):
+    return render(request, 'store/info_page.html', {
+        'page_title': 'Luxe Journal & Editorial',
+        'subtitle': 'Style guides, trends, and fashion stories.',
+        'content_type': 'blog'
+    })
+
+
 # ─── REST API Views ────────────────────────────────────────────────────────────
 
 @api_view(['GET'])
@@ -149,6 +206,7 @@ def api_products(request):
     category_slug = request.GET.get('category')
     featured = request.GET.get('featured')
     search = request.GET.get('q', '')
+    sort = request.GET.get('sort', '')
     if category_slug:
         products = products.filter(category__slug=category_slug)
     if featured:
@@ -158,6 +216,14 @@ def api_products(request):
             django_models.Q(name__icontains=search) |
             django_models.Q(description__icontains=search)
         )
+
+    if sort == 'price-asc':
+        products = products.order_by('price')
+    elif sort == 'price-desc':
+        products = products.order_by('-price')
+    elif sort == 'rating':
+        products = products.order_by('-rating')
+
     return Response(ProductSerializer(products, many=True).data)
 
 

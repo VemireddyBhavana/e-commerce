@@ -9,6 +9,14 @@ urlpatterns = [
     path('cart/', views.cart_page, name='cart'),
     path('checkout/', views.checkout_page, name='checkout'),
     path('orders/', views.orders_page, name='orders'),
+    path('about/', views.about_page, name='about'),
+    path('contact/', views.contact_page, name='contact'),
+    path('returns/', views.returns_page, name='returns'),
+    path('faqs/', views.faqs_page, name='faqs'),
+    path('shipping/', views.shipping_page, name='shipping'),
+    path('careers/', views.careers_page, name='careers'),
+    path('press/', views.press_page, name='press'),
+    path('blog/', views.blog_page, name='blog'),
 
     # API endpoints
     path('api/categories/', views.api_categories, name='api_categories'),

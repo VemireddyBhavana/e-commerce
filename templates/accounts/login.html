@@ -1,73 +1,103 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Login – LUXE.{% endblock %}
+{% block title %}Login – LuxeStore{% endblock %}
+
 {% block content %}
 <div class="auth-page" id="loginPage">
   <div class="auth-card">
-    <div class="auth-logo">LUXE<span>.</span></div>
-    <p class="auth-subtitle">Welcome back! Sign in to your account.</p>
 
-    <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label for="loginUser">Username</label>
-        <input type="text" id="loginUser" name="username" required placeholder="Enter your username" autocomplete="username"/>
-      </div>
-      <div class="form-group">
-        <label for="loginPwd">Password</label>
-        <div class="pwd-wrap">
-          <input type="password" id="loginPwd" name="password" required placeholder="Enter your password" autocomplete="current-password"/>
-          <button type="button" class="toggle-pwd" onclick="togglePwd('loginPwd')" aria-label="Show password"><i class="fas fa-eye"></i></button>
+    <!-- Logo -->
+    <a href="/" class="auth-logo" id="authLogo" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:inherit;">
+      <span class="auth-logo-icon logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="#E91E8C"/>
+        </svg>
+      </span>
+      Luxe<span style="color:var(--brand);font-weight:400;">Store</span>
+    </a>
+    <p class="auth-subtitle">Login to your account</p>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      {% csrf_token %}
+
+      <!-- Email -->
+      <div>
+        <label class="auth-label" for="loginEmail">Email</label>
+        <div class="auth-input-wrap">
+          <i class="far fa-envelope auth-input-icon"></i>
+          <input class="auth-input" type="email" id="loginEmail" placeholder="Enter your email" required/>
         </div>
       </div>
-      <div id="loginError" class="form-error hidden"></div>
-      <button type="submit" class="btn btn-brand btn-full btn-lg" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Sign In
-      </button>
+
+      <!-- Password -->
+      <div>
+        <label class="auth-label" for="loginPassword">Password</label>
+        <div class="auth-input-wrap">
+          <i class="fas fa-lock auth-input-icon"></i>
+          <input class="auth-input" type="password" id="loginPassword" placeholder="Enter your password" required/>
+        </div>
+      </div>
+
+      <!-- Show Password -->
+      <label class="auth-show-pass">
+        <input type="checkbox" id="showPasswordCheck" onchange="togglePasswordVisibility('loginPassword', this)"/>
+        Show Password
+      </label>
+
+      <!-- Error message -->
+      <div id="loginError" style="color:#ef4444;font-size:.82rem;margin-bottom:12px;text-align:center;display:none;"></div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-auth btn-auth-dark" id="loginBtn">Login</button>
     </form>
 
-    <div class="auth-divider"><span>or</span></div>
-    <p class="auth-switch">Don't have an account? <a href="/accounts/register/" id="goRegister">Create one free</a></p>
-  </div>
-</div>
-{% endblock %}
+    <!-- Switch to Register -->
+    <div class="auth-switch">
+      Don't have an account? <a href="/accounts/register/" id="goToRegister">Register</a>
+    </div>
 
-{% block extra_js %}
 <script>
+function togglePasswordVisibility(inputId, checkbox) {
+  const input = document.getElementById(inputId);
+  input.type = checkbox.checked ? 'text' : 'password';
+}
+
 async function handleLogin(e) {
   e.preventDefault();
   const btn = document.getElementById('loginBtn');
   const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  btn.textContent = 'Logging in...';
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in…';
-  errEl.classList.add('hidden');
 
-  const res = await fetch('/accounts/api/login/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
-    credentials: 'include',
-    body: JSON.stringify({
-      username: document.getElementById('loginUser').value,
-      password: document.getElementById('loginPwd').value,
-    }),
-  });
-  const data = await res.json();
-  if (res.ok) {
-    localStorage.setItem('user', JSON.stringify(data.user));
-    showToast('Welcome back, ' + data.user.username + '! 👋', 'success');
-    setTimeout(() => {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  try {
+    const resp = await fetch('/accounts/api/login/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken()},
+      body: JSON.stringify({ username: email, password })
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showToast('Welcome back! 👋', 'success');
       const next = new URLSearchParams(window.location.search).get('next') || '/';
-      window.location.href = next;
-    }, 700);
-  } else {
-    errEl.textContent = data.error || 'Invalid username or password.';
-    errEl.classList.remove('hidden');
+      setTimeout(() => spaNavigate(next), 600);
+    } else {
+      errEl.textContent = data.error || 'Invalid email or password';
+      errEl.style.display = 'block';
+      btn.textContent = 'Login';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    errEl.textContent = 'Something went wrong. Please try again.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Login';
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
   }
 }
-function togglePwd(id) {
-  const f = document.getElementById(id);
-  f.type = f.type === 'password' ? 'text' : 'password';
-}
 </script>
+  </div>
+</div>
 {% endblock %}

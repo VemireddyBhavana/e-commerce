@@ -1,116 +1,118 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}Your Cart – ShopNova{% endblock %}
+{% block title %}Shopping Cart – LuxeStore{% endblock %}
 
 {% block content %}
-<section class="section" id="cartPage">
-  <div class="container">
-    <h1 class="page-title">Shopping Cart</h1>
-    <div id="cartContent">
-      <div class="cart-layout">
-        <!-- Cart Items -->
-        <div class="cart-items" id="cartItems">
-          <div class="loading-spinner" id="cartLoading">
-            <i class="fas fa-spinner fa-spin"></i> Loading cart…
-          </div>
-        </div>
-        <!-- Cart Summary -->
-        <div class="cart-summary" id="cartSummary">
-          <div class="summary-card">
-            <h3>Order Summary</h3>
-            <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">₹0.00</span></div>
-            <div class="summary-row"><span>Shipping</span><span class="text-success">FREE</span></div>
-            <div class="summary-row total"><span>Total</span><span id="summaryTotal">₹0.00</span></div>
-            <a href="/checkout/" class="btn btn-primary btn-full btn-large" id="checkoutBtn">
-              <i class="fas fa-lock"></i> Proceed to Checkout
-            </a>
-            <a href="/products/" class="btn btn-outline btn-full" id="continueShoppingBtn">
-              <i class="fas fa-arrow-left"></i> Continue Shopping
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="cart-page container" id="cartPage">
 
-    <!-- Empty Cart State -->
-    <div class="empty-cart hidden" id="emptyCart">
-      <div class="empty-state">
-        <div class="empty-icon">🛒</div>
-        <h2>Your cart is empty</h2>
-        <p>Looks like you haven't added anything yet!</p>
-        <a href="/products/" class="btn btn-primary btn-large" id="emptyCartShop">Start Shopping</a>
+  <div class="cart-page-eyebrow">REVIEW &amp; CHECKOUT</div>
+  <h1 class="cart-page-title" id="cartPageTitle">
+    Shopping Cart <span style="font-weight:400;color:var(--text-muted);font-size:1.4rem;" id="cartCountDisplay">({{ cart.total_items }})</span>
+  </h1>
+
+  {% if cart.items.all %}
+  <!-- Cart Items -->
+  <div id="cartItemsContainer">
+    {% for item in cart.items.all %}
+    <div class="cart-card" id="cartRow-{{ item.id }}">
+      <div class="cart-item-row">
+        <!-- Image -->
+        <div class="cart-item-img">
+          <img src="{{ item.product.get_image_url }}" alt="{{ item.product.name }}"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=200&q=80';"/>
+        </div>
+        <!-- Info -->
+        <div class="cart-item-info">
+          <div class="cart-item-name">{{ item.product.name }}</div>
+          <div class="cart-item-price">₹{{ item.product.price }}</div>
+          <div class="cart-item-cat">{{ item.product.category.name }}</div>
+        </div>
+        <!-- Controls -->
+        <div class="cart-item-controls">
+          <div class="qty-pill">
+            <span class="qty-pill-label">Qty</span>
+            <input type="number" value="{{ item.quantity }}" min="1"
+                   onchange="updateCartItem({{ item.id }}, this.value)"
+                   id="qtyInput-{{ item.id }}"/>
+          </div>
+          <button class="btn-remove-cart" onclick="removeCartItem({{ item.id }})" id="removeBtn-{{ item.id }}" aria-label="Remove">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-</section>
-{% endblock %}
 
-{% block extra_js %}
+  <!-- Summary + Buy Now -->
+  <div class="cart-summary-card" id="cartSummaryCard">
+    <div>
+      <div class="cart-total-label">Total</div>
+      <div class="cart-total-amount" id="cartTotalAmount">₹{{ cart.total_price|floatformat:2 }}</div>
+    </div>
+    <a href="/checkout/" class="btn-buy-now" id="buyNowBtn" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+      Proceed to Checkout →
+    </a>
+  </div>
+
+  {% else %}
+  <!-- Empty State -->
+  <div class="cart-empty-state" id="cartEmptyState">
+    <i class="fas fa-shopping-bag"></i>
+    <p>Your cart is empty</p>
+    <a href="/products/" class="btn-buy-now" style="display:inline-block;text-decoration:none;padding:12px 32px;" id="startShoppingBtn">
+      Start Shopping
+    </a>
+  </div>
+  {% endif %}
+
 <script>
-async function loadCartPage() {
-  const res = await fetch('/api/cart/', {credentials: 'include'});
-  const cart = await res.json();
-  const itemsEl = document.getElementById('cartItems');
-  const emptyEl = document.getElementById('emptyCart');
-  const loading = document.getElementById('cartLoading');
-  loading.classList.add('hidden');
-
-  if (!cart.items || cart.items.length === 0) {
-    document.getElementById('cartContent').classList.add('hidden');
-    emptyEl.classList.remove('hidden');
-    return;
-  }
-
-  let html = '';
-  cart.items.forEach(item => {
-    html += `
-    <div class="cart-item" id="cartItem-${item.id}">
-      <div class="cart-item-img">
-        <img src="${item.product_image || 'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80'}" alt="${item.product_name}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?w=600&q=80';"/>
-      </div>
-      <div class="cart-item-info">
-        <h3>${item.product_name}</h3>
-        <span class="cart-item-price">₹${item.product_price}</span>
-      </div>
-      <div class="cart-item-qty">
-        <button onclick="updateCartItem(${item.id}, ${item.quantity - 1})" class="qty-btn" id="minus-${item.id}">–</button>
-        <span class="qty-display" id="qty-${item.id}">${item.quantity}</span>
-        <button onclick="updateCartItem(${item.id}, ${item.quantity + 1})" class="qty-btn" id="plus-${item.id}">+</button>
-      </div>
-      <div class="cart-item-subtotal">₹${item.subtotal}</div>
-      <button class="cart-item-remove" onclick="removeCartItem(${item.id})" id="remove-${item.id}" aria-label="Remove">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </div>`;
-  });
-  itemsEl.innerHTML = html;
-  document.getElementById('summarySubtotal').textContent = '₹' + cart.total_price;
-  document.getElementById('summaryTotal').textContent = '₹' + cart.total_price;
-}
-
 async function updateCartItem(itemId, qty) {
-  if (qty < 0) return;
-  await fetch(`/api/cart/update/${itemId}/`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken')},
-    credentials: 'include',
-    body: JSON.stringify({quantity: qty})
-  });
-  await loadCartPage();
-  await refreshCartCount();
+  qty = parseInt(qty);
+  if (qty <= 0) { removeCartItem(itemId); return; }
+  try {
+    const resp = await fetch(`/api/cart/update/${itemId}/`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken()},
+      body: JSON.stringify({ quantity: qty })
+    });
+    if (resp.ok) {
+      const cart = await resp.json();
+      const el = document.getElementById('cartTotalAmount');
+      if (el) el.textContent = '₹' + parseFloat(cart.total_price).toFixed(2);
+      const countEl = document.getElementById('cartCountDisplay');
+      if (countEl) countEl.textContent = `(${cart.total_items})`;
+      updateCartBadge(cart.total_items);
+    }
+  } catch(e) { showToast('Failed to update cart', 'error'); }
 }
 
 async function removeCartItem(itemId) {
-  await fetch(`/api/cart/remove/${itemId}/`, {
-    method: 'DELETE',
-    headers: {'X-CSRFToken': getCookie('csrftoken')},
-    credentials: 'include'
-  });
-  await loadCartPage();
-  await refreshCartCount();
+  try {
+    const resp = await fetch(`/api/cart/remove/${itemId}/`, {
+      method: 'DELETE',
+      headers: {'X-CSRFToken': getCsrfToken()}
+    });
+    if (resp.ok) {
+      const row = document.getElementById('cartRow-' + itemId);
+      if (row) { row.style.opacity = '0'; setTimeout(() => row.remove(), 300); }
+      const cart = await resp.json();
+      const el = document.getElementById('cartTotalAmount');
+      if (el) el.textContent = '₹' + parseFloat(cart.total_price).toFixed(2);
+      const countEl = document.getElementById('cartCountDisplay');
+      if (countEl) countEl.textContent = `(${cart.total_items})`;
+      updateCartBadge(cart.total_items);
+      if (cart.total_items === 0) {
+        const page = document.getElementById('cartPage');
+        if (page) {
+          page.innerHTML = '<div class="cart-empty-state"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p><a href="/products/" class="btn-buy-now" style="display:inline-block;text-decoration:none;padding:12px 32px;">Start Shopping</a></div>';
+        }
+      }
+      showToast('Item removed', 'info');
+    }
+  } catch(e) { showToast('Failed to remove item', 'error'); }
 }
-
-loadCartPage();
 </script>
+
+</div>
 {% endblock %}

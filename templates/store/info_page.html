@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ page_title }} – LuxeStore{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 60px 0 90px;">
+
+  <!-- Header Banner -->
+  <div style="text-align:center; max-width: 720px; margin: 0 auto 50px;">
+    <span style="font-size: .8rem; font-weight: 700; color: var(--brand); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px;">LUXESTORE EDITORIAL</span>
+    <h1 style="font-size: 2.6rem; font-weight: 800; color: var(--text); margin-bottom: 12px; letter-spacing: -.02em;">{{ page_title }}</h1>
+    <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.6;">{{ subtitle }}</p>
+  </div>
+
+  <div style="background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,.04); max-width: 900px; margin: 0 auto;">
+
+    {% if content_type == 'about' %}
+    <div style="display: flex; flex-direction: column; gap: 24px; font-size: 1rem; line-height: 1.8; color: var(--text);">
+      <h2 style="font-size: 1.5rem; font-weight: 700;">Welcome to LuxeStore</h2>
+      <p>LuxeStore is a premier online destination for luxury fashion, streetwear, and lifestyle essentials. Founded in 2026, our mission is to deliver curated drops from world-class designers and upcoming independent brands directly to fashion enthusiasts across the globe.</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 20px 0;">
+        <div style="background: var(--bg); padding: 24px; border-radius: 14px; text-align: center;">
+          <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--brand);">100%</h3>
+          <p style="font-size: .85rem; color: var(--text-muted); margin-top: 4px;">Authentic Products</p>
+        </div>
+        <div style="background: var(--bg); padding: 24px; border-radius: 14px; text-align: center;">
+          <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--brand);">50+</h3>
+          <p style="font-size: .85rem; color: var(--text-muted); margin-top: 4px;">Global Fashion Hubs</p>
+        </div>
+        <div style="background: var(--bg); padding: 24px; border-radius: 14px; text-align: center;">
+          <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--brand);">24/7</h3>
+          <p style="font-size: .85rem; color: var(--text-muted); margin-top: 4px;">Concierge Support</p>
+        </div>
+      </div>
+      
+      <p>Whether you're looking for iconic silhouettes, seasonal runway drops, or elevated everyday wardrobe staples, LuxeStore brings you unmatched quality and seamless shopping experience.</p>
+    </div>
+
+    {% elif content_type == 'contact' %}
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+      <div>
+        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 16px;">Get In Touch</h2>
+        <p style="color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">Have questions about your order, shipping, or returns? Our customer support team is available 24/7.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; gap: 14px; align-items: center;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="far fa-envelope"></i></div>
+            <div>
+              <span style="font-size: .8rem; color: var(--text-muted); display: block;">Email Us</span>
+              <strong style="font-size: .95rem;">support@luxestore.com</strong>
+            </div>
+          </div>
+          <div style="display: flex; gap: 14px; align-items: center;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="fas fa-phone-alt"></i></div>
+            <div>
+              <span style="font-size: .8rem; color: var(--text-muted); display: block;">Call Us</span>
+              <strong style="font-size: .95rem;">+1 (800) 589-3786</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault(); showToast('Message sent! Our support team will reply shortly.', 'success'); this.reset();" style="display: flex; flex-direction: column; gap: 14px;">
+        <input type="text" class="auth-input" placeholder="Your Name" required/>
+        <input type="email" class="auth-input" placeholder="Your Email" required/>
+        <textarea class="auth-input" style="height: 120px; padding: 12px; resize: none;" placeholder="How can we help you?" required></textarea>
+        <button type="submit" class="btn-auth btn-auth-brand" style="border-radius: 99px;">Send Message</button>
+      </form>
+    </div>
+
+    {% elif content_type == 'returns' %}
+    <div style="font-size: .95rem; line-height: 1.8; display: flex; flex-direction: column; gap: 20px;">
+      <h2 style="font-size: 1.4rem; font-weight: 700;">Hassle-Free Returns & Exchanges</h2>
+      <p>We want you to be completely satisfied with your purchase. If you are not satisfied with your item, you may return it within <strong>30 days of delivery</strong> for a full refund or store exchange.</p>
+      
+      <div style="background: var(--bg); padding: 20px; border-radius: 12px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Return Guidelines</h3>
+        <ul style="padding-left: 20px; color: var(--text-muted);">
+          <li>Items must be unworn, unwashed, and in original packaging with tags attached.</li>
+          <li>Footwear must be returned in the original shoe box undamaged.</li>
+          <li>Free return shipping is provided for domestic orders over ₹999.</li>
+        </ul>
+      </div>
+    </div>
+
+    {% elif content_type == 'faqs' %}
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">How long does shipping take?</h3>
+        <p style="color: var(--text-muted); font-size: .95rem;">Standard shipping takes 3-5 business days. Express overnight delivery is available at checkout.</p>
+      </div>
+      <div style="border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">Are all items authentic?</h3>
+        <p style="color: var(--text-muted); font-size: .95rem;">Yes! Every product sold on LuxeStore is guaranteed 100% authentic and sourced directly from official brand partners.</p>
+      </div>
+      <div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">How can I track my order?</h3>
+        <p style="color: var(--text-muted); font-size: .95rem;">Once shipped, you will receive a tracking link via email. You can also view live order updates on your <a href="/orders/" style="color: var(--brand); font-weight: 600;">My Orders</a> page.</p>
+      </div>
+    </div>
+
+    {% else %}
+    <div style="text-align: center; padding: 40px 20px;">
+      <i class="fas fa-gem" style="font-size: 3rem; color: var(--brand); margin-bottom: 16px;"></i>
+      <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 8px;">{{ page_title }}</h2>
+      <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 24px;">Discover the latest announcements, updates, and featured collections from the LuxeStore editorial desk.</p>
+      <a href="/products/" class="btn-auth btn-auth-dark" style="display: inline-block; width: auto; padding: 12px 28px; border-radius: 99px; text-decoration: none;">Explore Shop →</a>
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+{% endblock %}
