@@ -470,60 +470,53 @@ ul { list-style: none; }
 .hero-images {
   position: relative;
   height: 520px;
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
 }
 .hero-img-main {
   position: absolute;
   left: 0;
-  top: 0;
-  width: 55%;
-  height: 72%;
-  border-radius: 20px;
+  top: 15px;
+  width: 52%;
+  height: 82%;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.18);
-  transform: rotate(-2deg);
+  box-shadow: 0 20px 50px rgba(0,0,0,.15);
+  transform: rotate(-3deg);
+  z-index: 1;
   animation: floatMain 6s ease-in-out infinite;
-  transition: transform .4s ease, box-shadow .4s ease;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease;
 }
 .hero-img-main:hover {
-  transform: rotate(-1deg) scale(1.03);
-  box-shadow: 0 28px 70px rgba(233,30,140,.25);
+  transform: rotate(-1deg) scale(1.04) translateY(-6px);
+  box-shadow: 0 28px 65px rgba(233,30,140,.22);
+  z-index: 3;
 }
 .hero-img-main img { width: 100%; height: 100%; object-fit: cover; }
+
 .hero-img-watch {
-  position: absolute;
-  left: 40%;
-  top: 25%;
-  width: 52%;
-  height: 68%;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.16);
-  transform: rotate(1.5deg);
-  animation: floatWatch 7s ease-in-out infinite;
-  transition: transform .4s ease, box-shadow .4s ease;
+  display: none;
 }
-.hero-img-watch:hover {
-  transform: rotate(3deg) scale(1.03);
-  box-shadow: 0 28px 70px rgba(233,30,140,.25);
-}
-.hero-img-watch img { width: 100%; height: 100%; object-fit: cover; }
+
 .hero-img-man {
   position: absolute;
   right: 0;
-  top: 5%;
-  width: 46%;
-  height: 80%;
-  border-radius: 20px;
+  top: 45px;
+  width: 54%;
+  height: 84%;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  box-shadow: 0 24px 55px rgba(0,0,0,.18);
+  transform: rotate(2.5deg);
+  z-index: 2;
   animation: floatMan 6.5s ease-in-out infinite;
-  transition: transform .4s ease, box-shadow .4s ease;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease;
 }
 .hero-img-man:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 28px 70px rgba(233,30,140,.25);
+  transform: rotate(0deg) scale(1.04) translateY(-6px);
+  box-shadow: 0 30px 70px rgba(233,30,140,.25);
+  z-index: 3;
 }
 .hero-img-man img { width: 100%; height: 100%; object-fit: cover; }
 
