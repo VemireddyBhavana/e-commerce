@@ -12,28 +12,118 @@ from store.models import Category, Product
 # Clear existing data
 Product.objects.all().delete()
 Category.objects.all().delete()
-print("🗑️  Cleared existing products & categories.\n")
+print("Cleared existing products & categories.\n")
 
 # Create categories with unique high quality images
 categories = {}
 category_data = [
-    ('Electronics', 'electronics', 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80'),
+    ('Accessories', 'accessories', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80'),
+    ('Footwear', 'footwear', 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80'),
+    ('Men', 'men', 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80'),
+    ('Women', 'women', 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80'),
     ('Clothing', 'clothing', 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80'),
+    ('Beauty', 'beauty', 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80'),
+    ('Electronics', 'electronics', 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80'),
     ('Books', 'books', 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80'),
     ('Home & Garden', 'home', 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80'),
     ('Sports', 'sports', 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&q=80'),
-    ('Beauty', 'beauty', 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80'),
 ]
 
 for name, slug, img in category_data:
     cat = Category.objects.create(name=name, slug=slug, image_url=img)
     categories[slug] = cat
-    print(f'  ✅ Category: {name}')
+    print(f'  Category: {name}')
 
 print()
 
-# ─── Products Data — 54 Unique Products with Unique Images ───────────────────
+# ─── Products Data — Unique Products with Unique Images ───────────────────
 products_data = [
+
+    # ── Accessories (8 items) ──────────────────────────────────────────────
+    dict(name='Luxury Automatic Chronograph Watch', slug='luxury-chronograph-watch',
+         category='accessories',
+         description='Premium Swiss-movement automatic chronograph watch with sapphire crystal, stainless steel bracelet, and 100m water resistance.',
+         price='34999', original_price='49999', stock=25, is_featured=True, rating=4.9, review_count=412,
+         image_url='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80'),
+
+    dict(name='Italian Grain Leather Crossbody Bag', slug='italian-leather-crossbody-bag',
+         category='accessories',
+         description='Handcrafted Italian full-grain leather crossbody handbag with gold hardware, adjustable strap, and interior card slots.',
+         price='12999', original_price='18999', stock=40, is_featured=True, rating=4.8, review_count=328,
+         image_url='https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80'),
+
+    dict(name='Designer Polarised Aviator Sunglasses', slug='polarised-aviator-sunglasses',
+         category='accessories',
+         description='Classic aviator sunglasses with UV400 polarised lenses, lightweight titanium frame, and anti-glare coating.',
+         price='5999', original_price='8999', stock=85, is_featured=True, rating=4.7, review_count=670,
+         image_url='https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80'),
+
+    dict(name='Minimalist Bifold Leather Wallet', slug='minimalist-leather-wallet',
+         category='accessories',
+         description='Slim RFID-blocking bifold wallet crafted from vegetable-tanned leather. Holds up to 10 cards + cash note compartment.',
+         price='2999', original_price='4499', stock=150, is_featured=False, rating=4.6, review_count=980,
+         image_url='https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80'),
+
+    dict(name='18k Gold Plated Coin Pendant Necklace', slug='gold-coin-pendant-necklace',
+         category='accessories',
+         description='Elegant 18k gold-plated layered chain necklace with a vintage coin pendant. Tarnish-resistant and hypoallergenic.',
+         price='3499', original_price='5299', stock=90, is_featured=True, rating=4.8, review_count=215,
+         image_url='https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80'),
+
+    dict(name='Pure Mulberry Silk Patterned Scarf', slug='mulberry-silk-scarf',
+         category='accessories',
+         description='100% pure silk square scarf featuring an exclusive geometric luxury print. Soft, breathable, and versatile style statement.',
+         price='4499', original_price='6999', stock=60, is_featured=False, rating=4.7, review_count=189,
+         image_url='https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=600&q=80'),
+
+    # ── Footwear (10 items) ────────────────────────────────────────────────
+    dict(name='Nike Air Force 1', slug='nike-air-force-1',
+         category='footwear',
+         description='Premium Nike Air Force 1 icon with crisp leather upper, encapsulated Air cushioning, and durable rubber outsole.',
+         price='3999', original_price='5999', stock=100, is_featured=True, rating=4.9, review_count=2410,
+         image_url='https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80'),
+
+    dict(name='Nike Dunk Low Retro', slug='nike-dunk-low-retro',
+         category='footwear',
+         description='Classic 80s basketball sneaker returned with crisp overlays, heritage color blocking, and foam midsole comfort.',
+         price='4049', original_price='6299', stock=80, is_featured=True, rating=4.8, review_count=1890,
+         image_url='https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80'),
+
+    dict(name='Jordan 1 Retro High', slug='jordan-1-retro-high',
+         category='footwear',
+         description='The sneaker that started it all. Premium leather, Wings logo branding, and Air-Sole unit in the heel.',
+         price='4099', original_price='6499', stock=50, is_featured=True, rating=4.9, review_count=3120,
+         image_url='https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&q=80'),
+
+    dict(name='Jordan 4 Retro', slug='jordan-4-retro',
+         category='footwear',
+         description='Iconic silhouette with mesh side panels, sculpted lace-lock wings, and visible Air unit heel cushion.',
+         price='4149', original_price='6699', stock=45, is_featured=True, rating=4.9, review_count=2780,
+         image_url='https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&q=80'),
+
+    dict(name='Adidas Samba OG', slug='adidas-samba-og',
+         category='footwear',
+         description='Timeless indoor soccer classic featuring soft leather upper, suede T-toe overlay, and iconic gum rubber sole.',
+         price='4199', original_price='6199', stock=110, is_featured=True, rating=4.7, review_count=1650,
+         image_url='https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80'),
+
+    dict(name='Adidas Gazelle Vintage', slug='adidas-gazelle-vintage',
+         category='footwear',
+         description='Rich suede upper with contrast 3-Stripes and trefoil logo heel patch. Lightweight low-top street style.',
+         price='4249', original_price='6399', stock=75, is_featured=False, rating=4.6, review_count=940,
+         image_url='https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=600&q=80'),
+
+    dict(name='Puma Future Rider', slug='puma-future-rider',
+         category='footwear',
+         description='Vibrant retro-running sneaker with shock-absorbing Federbein outsole and lightweight IMEVA midsole.',
+         price='3899', original_price='5799', stock=90, is_featured=False, rating=4.6, review_count=820,
+         image_url='https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80'),
+
+    dict(name='Converse Chuck Taylor 70', slug='converse-chuck-70',
+         category='footwear',
+         description='Upgraded canvas high-top with vintage stitching, higher rubber foxing, and cushioned OrthoLite insole.',
+         price='3799', original_price='5499', stock=130, is_featured=False, rating=4.8, review_count=1450,
+         image_url='https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&q=80'),
 
     # ── Electronics (10 items) ──────────────────────────────────────────────
     dict(name='Wireless Noise-Cancelling Headphones', slug='wireless-nc-headphones',
@@ -371,7 +461,7 @@ created = 0
 for pd in products_data:
     cat_slug = pd.pop('category')
     Product.objects.create(category=categories[cat_slug], **pd)
-    print(f"  ✅ {pd['name']}")
+    print(f"  Added: {pd['name']}")
     created += 1
 
-print(f'\n🎉 Done! Seeded {created} products across {len(categories)} categories (prices in ₹ INR).')
+print(f'\nDone! Seeded {created} products across {len(categories)} categories (prices in INR).')

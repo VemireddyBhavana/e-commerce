@@ -3,17 +3,17 @@
 {% block title %}All Products – LuxeStore{% endblock %}
 
 {% block content %}
-<div class="container" id="productsPage">
+<div class="container" id="productsPage" style="padding-top: 20px;">
 
-  <!-- Page Header -->
-  <div class="products-page-header">
-    <h1 class="products-page-title" id="pageTitle">
+  <!-- Page Header (Zyvora Style) -->
+  <div class="products-page-header" style="padding: 20px 0 10px;">
+    <h1 class="products-page-title" id="pageTitle" style="font-size: 2.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; color: var(--text);">
       {% if search_query %}
-        Search: "{{ search_query }}"
+        SEARCH: "{{ search_query|upper }}"
       {% elif selected_category %}
-        {{ selected_category|title }}
+        {{ selected_category|upper }}
       {% else %}
-        All Products
+        ALL PRODUCTS
       {% endif %}
     </h1>
   </div>
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <!-- Products Grid -->
+  <!-- Products Grid (Zyvora 5-Column Grid) -->
   <div class="products-page-grid" id="productsGrid">
     {% for product in products %}
     <div class="product-card" id="pcard-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
@@ -54,7 +54,7 @@
       </div>
       <div class="product-card-body">
         <div class="product-card-name">{{ product.name }}</div>
-        <div class="product-card-desc">{{ product.description|truncatechars:65 }}</div>
+        <div class="product-card-desc">{{ product.description|truncatechars:50 }}</div>
         <div class="product-card-bottom">
           <div>
             <div class="product-price">₹{{ product.price }}</div>
@@ -69,8 +69,8 @@
     {% empty %}
     <div style="grid-column:1/-1;text-align:center;padding:80px 24px;color:var(--text-muted);" id="noProductsMsg">
       <i class="fas fa-search" style="font-size:2.5rem;color:var(--border);margin-bottom:16px;display:block;"></i>
-      <p style="font-size:1.1rem;font-weight:600;margin-bottom:8px;">No products found</p>
-      <p>Try a different search or category</p>
+      <p style="font-size:1.1rem;font-weight:600;margin-bottom:8px;">No products found in this category</p>
+      <p>Explore other categories or view all products</p>
       <a href="/products/" onclick="fetchProducts('', ''); return false;" style="display:inline-block;margin-top:20px;color:var(--brand);font-weight:700;">View All Products →</a>
     </div>
     {% endfor %}
@@ -184,13 +184,13 @@ async function fetchProducts(category = '', sort = '', updateUrl = true) {
   // Update Page Title
   if (pageTitle) {
     if (currentSearch) {
-      pageTitle.textContent = `Search: "${currentSearch}"`;
+      pageTitle.textContent = `SEARCH: "${currentSearch.toUpperCase()}"`;
     } else if (category) {
       const activeBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
       const catName = activeBtn ? activeBtn.getAttribute('data-name') || category : category;
-      pageTitle.textContent = catName.charAt(0).toUpperCase() + catName.slice(1);
+      pageTitle.textContent = catName.toUpperCase();
     } else {
-      pageTitle.textContent = 'All Products';
+      pageTitle.textContent = 'ALL PRODUCTS';
     }
   }
 
