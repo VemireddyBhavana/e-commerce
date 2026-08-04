@@ -62,7 +62,7 @@
 
       <!-- Desktop Category Links -->
       <ul class="nav-links">
-        {% for cat in all_categories %}
+        {% for cat in all_categories|slice:":6" %}
         <li><a href="/products/?category={{ cat.slug }}" onclick="handleNavCategoryClick(event, '{{ cat.slug }}')" id="nav-{{ cat.slug }}">{{ cat.name }}</a></li>
         {% empty %}
         <li><a href="/products/?category=footwear">FOOTWEAR</a></li>
