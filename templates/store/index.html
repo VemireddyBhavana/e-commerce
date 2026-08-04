@@ -73,22 +73,21 @@
            onclick="window.location.href='/products/{{ product.slug }}/'">
         <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy"
              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&q=80';"/>
-        <div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div>
       </div>
       {% empty %}
       <!-- Fallback fashion images when no products -->
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=400&q=80" alt="Accessories"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Fashion"/><div class="catalog-shop-btn">Shop Now &nbsp;&rarr;</div></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=400&q=80" alt="Accessories"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Fashion"/></div>
       {% endfor %}
     </div>
 </section>

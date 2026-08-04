@@ -782,29 +782,7 @@ ul { list-style: none; }
 .home-catalog-card:hover:not(.home-catalog-placeholder) { filter: brightness(1.02); }
 .home-catalog-card:hover:not(.home-catalog-placeholder) img { transform: scale(1.08); }
 
-/* Shop Now hover button */
-.catalog-shop-btn {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.78);
-  color: #ffffff;
-  text-align: center;
-  font-size: .78rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 11px 0;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: opacity .28s ease, transform .28s ease;
-  pointer-events: none;
-}
-.home-catalog-card:hover:not(.home-catalog-placeholder) .catalog-shop-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
+
 
 
 /* ─── Category Section Header ─────────────────────────── */
