@@ -67,9 +67,8 @@
 
 <!-- ── Product Catalog Grid ──────────────────────────────── -->
 <section style="padding: 0 0 60px; background: var(--bg);" id="catalogSection">
-  <div class="container">
     <div class="home-catalog-grid" id="homeCatalogGrid">
-      {% for product in featured_products %}
+      {% for product in featured_products|slice:":12" %}
       <div class="home-catalog-card" id="hcc-{{ product.id }}"
            onclick="window.location.href='/products/{{ product.slug }}/'">
         <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy"
@@ -91,119 +90,34 @@
       <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Fashion"/></div>
       {% endfor %}
     </div>
-  </div>
 </section>
+<script>
+  // Fill catalog grid to exactly 12 cells by recycling existing cards
+  (function(){
+    var grid = document.getElementById('homeCatalogGrid');
+    if (!grid) return;
+    var cards = Array.from(grid.querySelectorAll('.home-catalog-card'));
+    var total = cards.length;
+    if (total === 0) return;
+    var target = 12;
+    var needed = target - total;
+    for (var i = 0; i < needed; i++) {
+      // Clone an existing card cyclically
+      var source = cards[i % total];
+      var clone = source.cloneNode(true);
+      clone.removeAttribute('id'); // avoid duplicate IDs
+      clone.removeAttribute('onclick');
+      clone.style.cursor = 'default';
+      clone.style.pointerEvents = 'none';
+      grid.appendChild(clone);
+    }
+  })();
+</script>
 
-<!-- ── Featured / Trending Products ─────────────────────── -->
-{% if featured_products %}
-<section style="padding: 60px 0; background: var(--surface);" id="featuredSection">
-  <div class="container">
-    <div class="section-title-area">
-      <h2 class="section-title">Trending Now</h2>
-      <a href="/products/" class="section-view-all" id="viewAllFeatured">View All <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="products-page-grid" id="featuredGrid">
-      {% for product in featured_products|slice:":10" %}
-      <div class="product-card" id="pcard-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
-        <div class="product-card-img">
-          <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&q=80';"/>
-        </div>
-        <div class="product-card-body">
-          <div class="product-card-name">{{ product.name }}</div>
-          <div class="product-card-desc">{{ product.description|truncatechars:55 }}</div>
-          <div class="product-card-bottom">
-            <div>
-              <div class="product-price">₹{{ product.price }}</div>
-              {% if product.original_price %}<div class="product-price-orig">₹{{ product.original_price }}</div>{% endif %}
-            </div>
-            <button class="btn-add-cart"
-                    onclick="event.stopPropagation();handleAddCart({{ product.id }},'{{ product.name|escapejs }}',this)"
-                    id="addBtn-{{ product.id }}">
-              Add To Cart
-            </button>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
 
-<!-- ── New Arrivals ───────────────────────────────────────── -->
-{% if new_arrivals %}
-<section style="padding: 60px 0; background: var(--bg);" id="newArrivalsSection">
-  <div class="container">
-    <div class="section-title-area">
-      <h2 class="section-title">New Arrivals</h2>
-      <a href="/products/" class="section-view-all" id="viewAllNew">View All <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="products-page-grid" id="newArrivalsGrid">
-      {% for product in new_arrivals|slice:":10" %}
-      <div class="product-card" id="pcardN-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
-        <div class="product-card-img">
-          <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&q=80';"/>
-        </div>
-        <div class="product-card-body">
-          <div class="product-card-name">{{ product.name }}</div>
-          <div class="product-card-desc">{{ product.description|truncatechars:55 }}</div>
-          <div class="product-card-bottom">
-            <div>
-              <div class="product-price">₹{{ product.price }}</div>
-              {% if product.original_price %}<div class="product-price-orig">₹{{ product.original_price }}</div>{% endif %}
-            </div>
-            <button class="btn-add-cart"
-                    onclick="event.stopPropagation();handleAddCart({{ product.id }},'{{ product.name|escapejs }}',this)"
-                    id="addBtnN-{{ product.id }}">
-              Add To Cart
-            </button>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
 
-<!-- ── Top Deals ─────────────────────────────────────────── -->
-{% if top_deals %}
-<section style="padding: 60px 0; background: var(--surface);" id="topDealsSection">
-  <div class="container">
-    <div class="section-title-area">
-      <h2 class="section-title">Top Deals</h2>
-      <a href="/products/" class="section-view-all" id="viewAllDeals">View All <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="products-page-grid" id="topDealsGrid">
-      {% for product in top_deals|slice:":10" %}
-      <div class="product-card" id="pcardD-{{ product.id }}" onclick="window.location.href='/products/{{ product.slug }}/'">
-        <div class="product-card-img">
-          <img src="{{ product.get_image_url }}" alt="{{ product.name }}" loading="lazy"
-               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&q=80';"/>
-        </div>
-        <div class="product-card-body">
-          <div class="product-card-name">{{ product.name }}</div>
-          <div class="product-card-desc">{{ product.description|truncatechars:55 }}</div>
-          <div class="product-card-bottom">
-            <div>
-              <div class="product-price">₹{{ product.price }}</div>
-              {% if product.original_price %}<div class="product-price-orig">₹{{ product.original_price }}</div>{% endif %}
-            </div>
-            <button class="btn-add-cart"
-                    onclick="event.stopPropagation();handleAddCart({{ product.id }},'{{ product.name|escapejs }}',this)"
-                    id="addBtnD-{{ product.id }}">
-              Add To Cart
-            </button>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
+
+
 
 <!-- ── Category Banners ──────────────────────────────────── -->
 <section style="background: var(--bg); padding: 0 0 70px;" id="categoryBanners">

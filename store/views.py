@@ -37,10 +37,10 @@ def index(request):
     all_products = list(Product.objects.select_related('category').all())
     random.shuffle(all_products)
 
-    # Section 1: Trending Now
-    trending = all_products[:8]
+    # Section 1: Trending Now (12 for 2 full rows of catalog grid)
+    trending = all_products[:12]
     # Section 2: New Arrivals – unique 8 products
-    new_arrivals = all_products[8:16]
+    new_arrivals = all_products[12:20]
     # Section 3: Top Deals – discounted products
     discounted = [p for p in all_products if p.original_price and p.original_price > p.price]
     top_deals = discounted[:8]

@@ -744,33 +744,42 @@ ul { list-style: none; }
 }
 .btn-add-cart.in-cart:hover { background: var(--surface2); border-color: var(--text-muted); }
 
-/* ─── Home catalog mosaic grid ────────────────────────── */
+/* ─── Home catalog mosaic grid ──────────────────────────────── */
 .home-catalog-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 1px;
-  background: #e5e5e5;
+  gap: 0;
+  background: var(--bg);
 }
 .home-catalog-card {
   background: #ffffff;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1;
   overflow: hidden;
-  position: relative;
   cursor: pointer;
+  transition: filter .3s ease;
+  border: 0.5px solid #e8e3dc;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: filter .3s ease;
+}
+/* Empty placeholder cells — subtle style */
+.home-catalog-placeholder {
+  background: #f7f2ed !important;
+  cursor: default !important;
+  pointer-events: none !important;
+  border-color: #ede8e2 !important;
 }
 .home-catalog-card img {
-  width: 85%;
-  height: 85%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  padding: 14%;
+  box-sizing: border-box;
   transition: transform .45s ease;
   display: block;
 }
-.home-catalog-card:hover { filter: brightness(1.04); }
-.home-catalog-card:hover img { transform: scale(1.06); }
+.home-catalog-card:hover:not(.home-catalog-placeholder) { filter: brightness(1.02); }
+.home-catalog-card:hover:not(.home-catalog-placeholder) img { transform: scale(1.06); }
 
 /* ─── Category Banners ───────────────────────────────── */
 .category-banners {
