@@ -76,6 +76,42 @@ products_data = [
          price='4499', original_price='6999', stock=60, is_featured=False, rating=4.7, review_count=189,
          image_url='https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=600&q=80'),
 
+    dict(name='Genuine Full-Grain Leather Dress Belt', slug='genuine-leather-dress-belt',
+         category='accessories',
+         description='Hand-crafted full-grain leather dress belt with polished solid brass buckle. Timeless addition to formal & casual outfits.',
+         price='3299', original_price='4999', stock=110, is_featured=False, rating=4.6, review_count=420,
+         image_url='https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80'),
+
+    dict(name='Vintage Wayfarer Retro Sunglasses', slug='vintage-wayfarer-sunglasses',
+         category='accessories',
+         description='Handmade acetate wayfarer sunglasses with polarized dark tint lenses and sturdy 5-barrel hinges.',
+         price='4999', original_price='7499', stock=95, is_featured=True, rating=4.8, review_count=530,
+         image_url='https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80'),
+
+    dict(name='Classic Minimalist Leather Backpack', slug='minimalist-leather-backpack',
+         category='accessories',
+         description='Premium laptop backpack made from supple cowhide leather. Padded 15" laptop sleeve, waterproof zip, and ergonomic shoulder straps.',
+         price='14999', original_price='21999', stock=35, is_featured=True, rating=4.9, review_count=310,
+         image_url='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80'),
+
+    dict(name='Sterling Silver Minimalist Cuff Bracelet', slug='silver-cuff-bracelet',
+         category='accessories',
+         description='Solid 925 sterling silver open cuff bracelet with brushed matte finish. Adjustable fit for effortless everyday elegance.',
+         price='3999', original_price='5999', stock=80, is_featured=False, rating=4.7, review_count=275,
+         image_url='https://images.unsplash.com/photo-1611591475168-7528e578c757?w=600&q=80'),
+
+    dict(name='Designer Wool Felt Fedora Hat', slug='designer-fedora-hat',
+         category='accessories',
+         description='100% Australian wool felt fedora with genuine leather band trim. Water-repellent and shape-retaining classic headwear.',
+         price='4299', original_price='6499', stock=50, is_featured=False, rating=4.5, review_count=190,
+         image_url='https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?w=600&q=80'),
+
+    dict(name="Luxury Rose Gold Women's Watch", slug='rose-gold-womens-watch',
+         category='accessories',
+         description='Ultra-slim rose gold mesh strap watch with mother-of-pearl dial and crystal hour markers. 3ATM water resistant.',
+         price='28999', original_price='39999', stock=30, is_featured=True, rating=4.9, review_count=615,
+         image_url='https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=600&q=80'),
+
     # ── Footwear (10 items) ────────────────────────────────────────────────
     dict(name='Nike Air Force 1', slug='nike-air-force-1',
          category='footwear',
