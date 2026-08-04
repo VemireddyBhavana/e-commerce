@@ -105,7 +105,7 @@ async function removeCartItem(itemId) {
       if (cart.total_items === 0) {
         const page = document.getElementById('cartPage');
         if (page) {
-          page.innerHTML = '<div class="cart-empty-state"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p><a href="/products/" class="btn-buy-now" style="display:inline-block;text-decoration:none;padding:12px 32px;">Start Shopping</a></div>';
+          page.innerHTML = '<div class="cart-empty-state"><i class="fas fa-shopping-cart"></i><p>Your cart is empty</p><a href="/products/" class="btn-buy-now" style="display:inline-block;text-decoration:none;padding:12px 32px;">Start Shopping</a></div>';
         }
       }
       showToast('Item removed', 'info');

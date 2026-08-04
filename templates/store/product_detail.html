@@ -54,7 +54,7 @@
           {% if product.in_stock %}
           <button class="btn-detail-cart" id="detailAddCart"
                   onclick="handleAddCart({{ product.id }}, '{{ product.name|escapejs }}', this)">
-            <i class="fas fa-shopping-bag"></i>
+            <i class="fas fa-shopping-cart"></i>
             Add To Cart
           </button>
           {% else %}
