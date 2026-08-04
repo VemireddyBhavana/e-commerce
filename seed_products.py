@@ -112,6 +112,24 @@ products_data = [
          price='28999', original_price='39999', stock=30, is_featured=True, rating=4.9, review_count=615,
          image_url='https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=600&q=80'),
 
+    dict(name='Designer Leather Tote Handbag', slug='designer-leather-tote-handbag',
+         category='accessories',
+         description='Spacious structured leather tote bag with zip closure, laptop compartment, and dual top handles. Made from top-grain leather.',
+         price='18999', original_price='26999', stock=45, is_featured=True, rating=4.9, review_count=480,
+         image_url='https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80'),
+
+    dict(name='Classic Tortoiseshell Round Sunglasses', slug='tortoiseshell-round-sunglasses',
+         category='accessories',
+         description='Retro round frame sunglasses in rich tortoiseshell pattern with gradient brown polarized lenses.',
+         price='5499', original_price='7999', stock=70, is_featured=False, rating=4.7, review_count=310,
+         image_url='https://images.unsplash.com/photo-1577803645773-f96470509666?w=600&q=80'),
+
+    dict(name='Diamond Accent Silver Chain Bracelet', slug='diamond-accent-silver-bracelet',
+         category='accessories',
+         description='925 sterling silver link chain bracelet adorned with subtle cubic zirconia diamond accents. Fold-over clasp closure.',
+         price='7999', original_price='11999', stock=55, is_featured=True, rating=4.8, review_count=225,
+         image_url='https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80'),
+
     # ── Footwear (10 items) ────────────────────────────────────────────────
     dict(name='Nike Air Force 1', slug='nike-air-force-1',
          category='footwear',
