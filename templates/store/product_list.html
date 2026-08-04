@@ -6,8 +6,8 @@
 <div class="container" id="productsPage" style="padding-top: 20px;">
 
   <!-- Page Header (Zyvora Style) -->
-  <div class="products-page-header" style="padding: 20px 0 10px;">
-    <h1 class="products-page-title" id="pageTitle" style="font-size: 2.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; color: var(--text);">
+  <div class="products-page-header" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0 24px; border-bottom: 1px solid var(--border-light); margin-bottom: 30px;">
+    <h1 class="products-page-title" id="pageTitle" style="font-size: 2.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; color: var(--text); margin: 0;">
       {% if search_query %}
         SEARCH: "{{ search_query|upper }}"
       {% elif selected_category %}
@@ -16,26 +16,8 @@
         ALL PRODUCTS
       {% endif %}
     </h1>
-  </div>
-
-  <!-- Filter Bar -->
-  <div class="filter-bar" id="filterBar">
-    <a href="/products/"
-       class="filter-btn {% if not selected_category %}active{% endif %}"
-       data-category=""
-       id="filterAll">All</a>
-    {% for cat in categories %}
-    <a href="/products/?category={{ cat.slug }}{% if search_query %}&q={{ search_query }}{% endif %}"
-       class="filter-btn {% if selected_category == cat.slug %}active{% endif %}"
-       data-category="{{ cat.slug }}"
-       data-name="{{ cat.name }}"
-       id="filter-{{ cat.slug }}">
-      {{ cat.name }}
-    </a>
-    {% endfor %}
-
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
-      <select class="filter-select" id="sortSelect">
+    <div style="display:flex; gap:8px; align-items:center;">
+      <select class="filter-select" id="sortSelect" style="margin-left: 0;">
         <option value="" {% if not current_sort %}selected{% endif %}>Sort: Default</option>
         <option value="price-asc" {% if current_sort == 'price-asc' %}selected{% endif %}>Price: Low to High</option>
         <option value="price-desc" {% if current_sort == 'price-desc' %}selected{% endif %}>Price: High to Low</option>
@@ -186,22 +168,11 @@ async function fetchProducts(category = '', sort = '', updateUrl = true) {
     if (currentSearch) {
       pageTitle.textContent = `SEARCH: "${currentSearch.toUpperCase()}"`;
     } else if (category) {
-      const activeBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
-      const catName = activeBtn ? activeBtn.getAttribute('data-name') || category : category;
-      pageTitle.textContent = catName.toUpperCase();
+      pageTitle.textContent = category.toUpperCase();
     } else {
       pageTitle.textContent = 'ALL PRODUCTS';
     }
   }
-
-  // Update active button state
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    if (btn.getAttribute('data-category') === category) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
 
   try {
     const apiUrl = '/api/products/' + queryString;
