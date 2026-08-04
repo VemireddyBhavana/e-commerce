@@ -66,7 +66,12 @@
 </section>
 
 <!-- ── Product Catalog Grid ──────────────────────────────── -->
-<section style="padding: 0 0 60px; background: var(--bg);" id="catalogSection">
+<section style="padding: 50px 0 70px; background: var(--bg);" id="catalogSection">
+    <div class="cat-section-header">
+      <p class="cat-eyebrow">EDITORIAL LOOKBOOK — 2026</p>
+      <h2 class="cat-heading">Featured Catalog</h2>
+      <div class="cat-heading-line"></div>
+    </div>
     <div class="home-catalog-grid" id="homeCatalogGrid">
       {% for product in featured_products|slice:":12" %}
       <div class="home-catalog-card" id="hcc-{{ product.id }}"
@@ -76,18 +81,18 @@
       </div>
       {% empty %}
       <!-- Fallback fashion images when no products -->
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=400&q=80" alt="Accessories"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=400&q=80" alt="Fashion"/></div>
-      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80" alt="Accessories"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=600&q=80" alt="Fashion"/></div>
+      <div class="home-catalog-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Fashion"/></div>
       {% endfor %}
     </div>
 </section>

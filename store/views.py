@@ -37,10 +37,13 @@ def index(request):
     all_products = list(Product.objects.select_related('category').all())
     random.shuffle(all_products)
 
-    # Section 1: Trending Now (12 for 2 full rows of catalog grid)
-    trending = all_products[:12]
-    # Section 2: New Arrivals – unique 8 products
-    new_arrivals = all_products[12:20]
+    # Section 1: Featured Catalog Grid (prioritize fashion & clothing items)
+    fashion_products = [p for p in all_products if p.category and p.category.slug in ['clothing', 'beauty']]
+    other_products = [p for p in all_products if p not in fashion_products]
+    trending = (fashion_products + other_products)[:12]
+
+    # Section 2: New Arrivals – remaining unique products
+    new_arrivals = [p for p in all_products if p not in trending][:8]
     # Section 3: Top Deals – discounted products
     discounted = [p for p in all_products if p.original_price and p.original_price > p.price]
     top_deals = discounted[:8]
