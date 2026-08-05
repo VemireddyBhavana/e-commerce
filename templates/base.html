@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/main.css' %}?v=5"/>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}?v=6"/>
   <script>
     function toggleMobileMenu() {
       const drawer = document.getElementById('mobileMenuDrawer');
@@ -43,14 +43,11 @@
 <!-- ── Navbar (Topmost) ───────────────────────────────── -->
 <header class="navbar" id="navbar">
   <div class="container nav-inner">
-    <!-- Mobile Menu Toggle -->
-    <button class="mobile-nav-toggle" id="mobileNavToggle" onclick="var d=document.getElementById('mobileMenuDrawer'),o=document.getElementById('mobileMenuOverlay');if(d&&o){d.classList.toggle('open');o.classList.toggle('open');}" aria-label="Toggle mobile menu">
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Nav Left: Logo + Categories -->
+    <!-- Nav Left: Mobile Menu Toggle + Logo -->
     <div class="nav-left">
-      <!-- Logo -->
+      <button class="mobile-nav-toggle" id="mobileNavToggle" onclick="var d=document.getElementById('mobileMenuDrawer'),o=document.getElementById('mobileMenuOverlay');if(d&&o){d.classList.toggle('open');o.classList.toggle('open');}" aria-label="Toggle mobile menu">
+        <i class="fas fa-bars"></i>
+      </button>
       <a href="/" class="nav-logo" id="navLogo">
         <span class="nav-logo-icon logo-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,71 +56,82 @@
         </span>
         Luxe<span class="nav-logo-text-accent">Store</span>
       </a>
-
-      <!-- Desktop Category Links -->
-      <ul class="nav-links">
-        {% for cat in all_categories|slice:":6" %}
-        <li><a href="/products/?category={{ cat.slug }}" onclick="handleNavCategoryClick(event, '{{ cat.slug }}')" id="nav-{{ cat.slug }}">{{ cat.name }}</a></li>
-        {% empty %}
-        <li><a href="/products/?category=footwear">FOOTWEAR</a></li>
-        <li><a href="/products/?category=beauty">BEAUTY</a></li>
-        <li><a href="/products/?category=skin">SKIN</a></li>
-        <li><a href="/products/?category=accessories">ACCESSORIES</a></li>
-        <li><a href="/products/?category=men">MEN</a></li>
-        <li><a href="/products/?category=women">WOMEN</a></li>
-        <li><a href="/products/?category=genz">GENZ</a></li>
-        {% endfor %}
-      </ul>
     </div>
 
-    <!-- Search -->
-    <div class="nav-search">
-      <form action="/products/" method="GET" style="flex:1;display:flex;align-items:center;gap:10px;" id="navSearchForm">
-        <button type="submit" style="background:none;border:none;padding:0;cursor:pointer;color:var(--text-light);" aria-label="Submit search" id="navSearchSubmit">
-          <i class="fas fa-search"></i>
-        </button>
-        <input type="text" name="q" placeholder="Search for products, brands and more" id="desktopSearch" value="{{ search_query|default:'' }}" style="flex:1;"/>
-      </form>
-    </div>
+    <!-- Nav Center: Category Links -->
+    <ul class="nav-links">
+      {% for cat in all_categories|slice:":6" %}
+      <li><a href="/products/?category={{ cat.slug }}" onclick="handleNavCategoryClick(event, '{{ cat.slug }}')" id="nav-{{ cat.slug }}">{{ cat.name }}</a></li>
+      {% empty %}
+      <li><a href="/products/?category=footwear">FOOTWEAR</a></li>
+      <li><a href="/products/?category=beauty">BEAUTY</a></li>
+      <li><a href="/products/?category=skin">SKIN</a></li>
+      <li><a href="/products/?category=accessories">ACCESSORIES</a></li>
+      <li><a href="/products/?category=men">MEN</a></li>
+      <li><a href="/products/?category=women">WOMEN</a></li>
+      <li><a href="/products/?category=genz">GENZ</a></li>
+      {% endfor %}
+    </ul>
 
-    <!-- Action Icons -->
-    <div class="nav-actions">
-      <!-- Profile Dropdown -->
-      <div class="nav-profile-wrap">
-        <button class="nav-action-btn" id="profileBtn" onclick="toggleProfileDropdown()" aria-label="Profile">
-          <i class="far fa-user"></i>
-          <span>Profile</span>
-        </button>
-        <div class="profile-dropdown" id="profileDropdown">
-          <!-- Logged-out state -->
-          <div id="dropdownLoggedOut">
-            <a href="/accounts/login/" id="ddLogin">Login</a>
-            <a href="/accounts/register/" id="ddRegister">Register</a>
-          </div>
-          <!-- Logged-in state -->
-          <div id="dropdownLoggedIn" style="display:none;">
-            <a href="/accounts/profile/" id="ddProfile">My Profile</a>
-            <a href="/orders/" id="ddOrders">My Orders</a>
-            <hr/>
-            <button onclick="handleLogout()" id="ddLogout">Logout</button>
-          </div>
-        </div>
+    <!-- Nav Right: Search + Action Icons -->
+    <div class="nav-right-wrap">
+      <div class="nav-search">
+        <form action="/products/" method="GET" id="navSearchForm">
+          <button type="submit" aria-label="Submit search" id="navSearchSubmit">
+            <i class="fas fa-search"></i>
+          </button>
+          <input type="text" name="q" placeholder="Search products, brands..." id="desktopSearch" value="{{ search_query|default:'' }}"/>
+        </form>
       </div>
 
-      <!-- Wishlist -->
-      <a href="#" class="nav-action-btn" id="navWishlistBtn" onclick="goToWishlist(event)" aria-label="Wishlist">
-        <i class="far fa-heart"></i>
-        <span>Wishlist</span>
-        <span class="nav-badge nav-badge-hidden" id="wishlistBadge">0</span>
-      </a>
+      <div class="nav-actions">
+        <!-- Profile Dropdown -->
+        <div class="nav-profile-wrap">
+          <button class="nav-action-btn" id="profileBtn" onclick="toggleProfileDropdown()" aria-label="Profile">
+            <i class="far fa-user"></i>
+            <span>Profile</span>
+          </button>
+          <div class="profile-dropdown" id="profileDropdown">
+            <!-- Logged-out state -->
+            <div id="dropdownLoggedOut">
+              <a href="/accounts/login/" id="ddLogin">Login</a>
+              <a href="/accounts/register/" id="ddRegister">Register</a>
+            </div>
+            <!-- Logged-in state -->
+            <div id="dropdownLoggedIn" style="display:none;">
+              <a href="/accounts/profile/" id="ddProfile">My Profile</a>
+              <a href="/orders/" id="ddOrders">My Orders</a>
+              <hr/>
+              <button onclick="handleLogout()" id="ddLogout">Logout</button>
+            </div>
+          </div>
+        </div>
 
-      <!-- Cart -->
-      <a href="/cart/" class="nav-action-btn" id="navCartBtn" aria-label="Cart">
-        <i class="fas fa-shopping-cart"></i>
-        <span>Cart</span>
-        <span class="nav-badge nav-badge-hidden" id="cartBadge">0</span>
-      </a>
+        <!-- Wishlist -->
+        <a href="#" class="nav-action-btn" id="navWishlistBtn" onclick="goToWishlist(event)" aria-label="Wishlist">
+          <i class="far fa-heart"></i>
+          <span>Wishlist</span>
+          <span class="nav-badge nav-badge-hidden" id="wishlistBadge">0</span>
+        </a>
+
+        <!-- Cart -->
+        <a href="/cart/" class="nav-action-btn" id="navCartBtn" aria-label="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Cart</span>
+          <span class="nav-badge nav-badge-hidden" id="cartBadge">0</span>
+        </a>
+      </div>
     </div>
+  </div>
+
+  <!-- Mobile Search Bar (Visible on mobile screens < 680px) -->
+  <div class="mobile-search-bar" id="mobileSearchBar">
+    <form action="/products/" method="GET" id="mobileNavSearchForm">
+      <button type="submit" aria-label="Submit search">
+        <i class="fas fa-search"></i>
+      </button>
+      <input type="text" name="q" placeholder="Search for products, brands and more..." id="mobileSearch" value="{{ search_query|default:'' }}" />
+    </form>
   </div>
 </header>
 
